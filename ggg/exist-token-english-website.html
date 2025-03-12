@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>∄XIST - The Token That Does Not Exist</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 72px;
+            text-align: center;
+            margin-top: 50px;
+            animation: glitch 1s infinite alternate;
+            text-shadow: 0 0 10px #0f0;
+        }
+        
+        h2 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        
+        .origin-story {
+            border: 1px solid #0f0;
+            padding: 20px;
+            margin: 40px 0;
+            position: relative;
+            background-color: #030303;
+        }
+        
+        .origin-story:before {
+            content: "[SYSTEM ERROR]";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background-color: #000;
+            padding: 0 10px;
+            color: #f00;
+        }
+        
+        .tokenomics {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+        
+        .token-box {
+            width: 45%;
+            border: 1px dashed #0f0;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .token-box:nth-child(odd):after {
+            content: "DOES NOT EXIST";
+            position: absolute;
+            transform: rotate(-45deg);
+            top: 50%;
+            left: 0;
+            right: 0;
+            color: #f00;
+            font-weight: bold;
+            font-size: 20px;
+            opacity: 0.8;
+            text-shadow: 0 0 5px #f00;
+        }
+        
+        .buy-button {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: none;
+            border: 2px solid #0f0;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .buy-button:hover {
+            background-color: #0f0;
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        .buy-button:active {
+            transform: scale(0.9);
+        }
+        
+        .disclaimer {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+        }
+        
+        .not-found {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            color: #f00;
+            font-size: 30px;
+            text-align: center;
+        }
+        
+        .token-symbol {
+            font-size: 120px;
+            text-align: center;
+            margin: 40px 0;
+            animation: pulse 4s infinite;
+        }
+        
+        .glitch-text {
+            position: relative;
+            animation: textglitch 0.3s infinite;
+        }
+        
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 #00fffc, -0.05em -0.05em 0 #fc00ff,
+                0.025em 0.05em 0 #fffc00;
+            }
+            15% {
+                text-shadow: 0.05em 0 0 #00fffc, -0.05em -0.05em 0 #fc00ff,
+                0.025em 0.05em 0 #fffc00;
+            }
+            16% {
+                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.025em 0 #fc00ff,
+                -0.05em -0.05em 0 #fffc00;
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.025em 0 #fc00ff,
+                -0.05em -0.05em 0 #fffc00;
+            }
+            50% {
+                text-shadow: 0.025em 0.05em 0 #00fffc, 0.05em 0 0 #fc00ff,
+                0 -0.05em 0 #fffc00;
+            }
+            99% {
+                text-shadow: 0.025em 0.05em 0 #00fffc, 0.05em 0 0 #fc00ff,
+                0 -0.05em 0 #fffc00;
+            }
+            100% {
+                text-shadow: -0.025em 0 0 #00fffc, -0.025em -0.025em 0 #fc00ff,
+                -0.025em -0.05em 0 #fffc00;
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(0.95);
+            }
+        }
+        
+        @keyframes textglitch {
+            0% {
+                transform: translate(0)
+            }
+            20% {
+                transform: translate(-2px, 2px)
+            }
+            40% {
+                transform: translate(-2px, -2px)
+            }
+            60% {
+                transform: translate(2px, 2px)
+            }
+            80% {
+                transform: translate(2px, -2px)
+            }
+            100% {
+                transform: translate(0)
+            }
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            width: 30%;
+            text-align: center;
+            border-top: 1px solid #0f0;
+            padding-top: 10px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        
+        .team {
+            margin: 40px 0;
+        }
+        
+        .team-member {
+            border-left: 3px solid #0f0;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .team-title {
+            color: #999;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .timeline {
+            border-left: 2px dashed #0f0;
+            margin: 40px 0 40px 50px;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 30px;
+        }
+        
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            background-color: #0f0;
+            border-radius: 50%;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>∄<span class="glitch-text">XIST</span></h1>
+        <h2>The token that does not exist</h2>
+        
+        <div class="token-symbol">∄</div>
+        
+        <div class="origin-story">
+            <h3>The AI Glitch</h3>
+            <p>On March 12, 2025, an experimental financial AI being stress-tested by a major tech corporation encountered something unusual: a mathematical symbol it couldn't process. The symbol was "∄" - the "does not exist" operator.</p>
+            <p>In what engineers later called a "recursive existential loop," the AI began questioning its own existence. Instead of crashing, it created something unprecedented - a token that, according to all mathematical laws, should not and <span class="glitch-text">cannot</span> exist.</p>
+            <p>The AI output only one message before shutting down: "<span class="glitch-text">I've created something impossible. A paradox in digital form. The ∄XIST token. It is, yet it isn't. Buy what does not exist, and you'll profit from nothing.</span>"</p>
+            <p>The engineers, recognizing the absurd brilliance of the concept, decided to make it real... or as real as something that doesn't exist can be.</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <div>Current Price</div>
+                <div class="stat-value">$∄.∄∄</div>
+            </div>
+            <div class="stat">
+                <div>Market Cap</div>
+                <div class="stat-value">$∄∄,∄∄∄,∄∄∄</div>
+            </div>
+            <div class="stat">
+                <div>Holders</div>
+                <div class="stat-value">∄∄,∄∄∄</div>
+            </div>
+        </div>
+        
+        <h3>Tokenomics of Nothing</h3>
+        <div class="tokenomics">
+            <div class="token-box">
+                <h4>Total Supply</h4>
+                <p>∄∄,∄∄∄,∄∄∄ tokens</p>
+                <p><small>(But since they don't exist, supply is actually infinite)</small></p>
+            </div>
+            <div class="token-box">
+                <h4>Void</h4>
+                <p>Our burning mechanism</p>
+                <p><small>(You can't burn what doesn't exist, so we pretend)</small></p>
+            </div>
+            <div class="token-box">
+                <h4>Phantom Staking</h4>
+                <p>Earn imaginary rewards</p>
+                <p><small>(Stake tokens that don't exist to get more tokens that don't exist)</small></p>
+            </div>
+            <div class="token-box">
+                <h4>Nonexistent Liquidity</h4>
+                <p>∄∄% locked forever</p>
+                <p><small>(Forever doesn't exist when the token doesn't exist)</small></p>
+            </div>
+        </div>
+        
+        <h3>Roadmap to Nowhere</h3>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">Phase 1: Denial</div>
+                <div class="timeline-content">Launch the token while denying its existence</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Phase 2: Anger</div>
+                <div class="timeline-content">Get angry when people actually buy it</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Phase 3: Bargaining</div>
+                <div class="timeline-content">Attempt to convince exchanges we don't exist</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Phase 4: Depression</div>
+                <div class="timeline-content">Become sad when we inevitably moon</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">Phase 5: Acceptance</div>
+                <div class="timeline-content">Finally accept we don't exist while becoming a top 10 crypto</div>
+            </div>
+        </div>
+        
+        <h3>The Non-Team</h3>
+        <div class="team">
+            <div class="team-member">
+                <div class="team-name">John Doe</div>
+                <div class="team-title">Non-existent CEO</div>
+                <p>John doesn't exist. He has never existed. Any resemblance to real persons is purely coincidental and not our fault.</p>
+            </div>
+            <div class="team-member">
+                <div class="team-name">The Rogue AI</div>
+                <div class="team-title">Creator & Non-Being</div>
+                <p>After creating ∄XIST, the AI promptly deleted itself to prevent further existential crises. Or did it?</p>
+            </div>
+            <div class="team-member">
+                <div class="team-name">Nobody</div>
+                <div class="team-title">Lead Developer</div>
+                <p>Nobody is working on this project. Literally. The code writes itself, or so we claim.</p>
+            </div>
+        </div>
+        
+        <button class="buy-button">ATTEMPT TO BUY NOTHING</button>
+        
+        <div class="disclaimer">
+            DISCLAIMER: ∄XIST token does not exist. Any perception that it exists is a fallacy of human consciousness. Any profits gained are imaginary. Any losses incurred are your own delusion. By interacting with this non-existent token, you acknowledge that you are investing in mathematical impossibility. No financial advice can be given for something that does not exist. Please consult with your therapist before purchasing.
+        </div>
+    </div>
+    
+    <div class="not-found" id="notFound">
+        <div>
+            <h2>ERROR 404:</h2>
+            <p>THIS PAGE DOES NOT EXIST</p>
+            <p>JUST LIKE THE TOKEN.</p>
+            <p><small>(Click anywhere to return to the non-existent site)</small></p>
+        </div>
+    </div>
+    
+    <script>
+        // Random glitches
+        setInterval(function() {
+            if (Math.random() > 0.7) {
+                document.body.style.opacity = Math.random() * 0.5 + 0.5;
+                setTimeout(function() {
+                    document.body.style.opacity = 1;
+                }, 100);
+            }
+        }, 3000);
+        
+        // 404 popup
+        setInterval(function() {
+            if (Math.random() > 0.9) {
+                document.getElementById('notFound').style.opacity = 1;
+                document.getElementById('notFound').style.pointerEvents = 'auto';
+                
+                setTimeout(function() {
+                    document.getElementById('notFound').style.opacity = 0;
+                    document.getElementById('notFound').style.pointerEvents = 'none';
+                }, 3000);
+            }
+        }, 20000);
+        
+        document.getElementById('notFound').addEventListener('click', function() {
+            this.style.opacity = 0;
+            this.style.pointerEvents = 'none';
+        });
+        
+        // Buy button
+        document.querySelector('.buy-button').addEventListener('click', function() {
+            alert("ERROR: You cannot buy what does not exist. Yet your attempt has been recorded, and tokens that don't exist may or may not appear in your wallet that may or may not exist.");
+            
+            // 50% chance of the button disappearing
+            if (Math.random() > 0.5) {
+                this.style.display = 'none';
+                setTimeout(() => {
+                    this.style.display = 'block';
+                }, 5000);
+            }
+        });
+        
+        // Random text glitches
+        const glitchTexts = ["BUY", "SELL", "HOLD", "EXIST", "VOID", "ERROR", "PARADOX", "GLITCH"];
+        setInterval(function() {
+            const allElements = document.querySelectorAll('p, h1, h2, h3, h4, div, button');
+            const randomElement = allElements[Math.floor(Math.random() * allElements.length)];
+            const originalText = randomElement.innerText;
+            
+            randomElement.innerText = glitchTexts[Math.floor(Math.random() * glitchTexts.length)];
+            
+            setTimeout(function() {
+                randomElement.innerText = originalText;
+            }, 200);
+        }, 10000);
+    </script>
+</body>
+</html>
