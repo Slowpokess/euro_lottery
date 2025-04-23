@@ -1,31 +1,92 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSpaces } from '../contexts';
 import './Spaces.css';
+// Импортируем схему помещений
+import layoutMapImage from '../assets/images/spaces/layout-map.jpg';
+
+// Вспомогательная функция для безопасной работы с данными
+const getSafeValue = (obj, path, defaultValue = '') => {
+  if (!obj) return defaultValue;
+  
+  // Обработка специальных случаев для обращения к элементам массива
+  if (path.includes('[') && path.includes(']')) {
+    // Например 'images[0]' -> обращение к первому элементу массива images
+    // eslint-disable-next-line no-useless-escape
+    const arrayMatch = path.match(/^([^\[]+)\[(\d+)\]$/);
+    if (arrayMatch) {
+      const arrayName = arrayMatch[1];
+      const arrayIndex = parseInt(arrayMatch[2], 10);
+      
+      if (!obj[arrayName] || !Array.isArray(obj[arrayName]) || arrayIndex >= obj[arrayName].length) {
+        return defaultValue;
+      }
+      
+      return obj[arrayName][arrayIndex] ?? defaultValue;
+    }
+  }
+  
+  // Обычная обработка вложенных свойств через точку
+  const keys = path.split('.');
+  let result = obj;
+  
+  for (const key of keys) {
+    if (result === null || result === undefined || !Object.prototype.hasOwnProperty.call(result, key)) {
+      return defaultValue;
+    }
+    result = result[key];
+  }
+  
+  return result === null || result === undefined ? defaultValue : result;
+};
 
 const Spaces = () => {
   const [activeSpace, setActiveSpace] = useState(null);
+  const [didInitialLoad, setDidInitialLoad] = useState(false);
   const { spaces, loading, error, fetchSpaces, fetchSpaceByCustomId } = useSpaces();
 
+  // Загрузка списка пространств только при первом рендере
   useEffect(() => {
     const loadSpaces = async () => {
-      await fetchSpaces();
-      // Set default active space after data is loaded
-      if (spaces.length > 0 && !activeSpace) {
-        setActiveSpace(spaces[0].id);
+      try {
+        await fetchSpaces();
+        setDidInitialLoad(true);
+      } catch (error) {
+        console.error('Failed to load spaces:', error);
       }
     };
     
-    loadSpaces();
-  }, [fetchSpaces, spaces, activeSpace]);
+    if (!didInitialLoad) {
+      loadSpaces();
+    }
+  }, [fetchSpaces, didInitialLoad]);
 
-  // When activeSpace changes, fetch the detailed data for that space
+  // Установка активного пространства после загрузки данных
   useEffect(() => {
+    if (spaces.length > 0 && !activeSpace && didInitialLoad) {
+      // Используем customId вместо id, основываясь на структуре данных
+      const firstSpaceId = spaces[0].customId || spaces[0]._id;
+      setActiveSpace(firstSpaceId);
+    }
+  }, [spaces, activeSpace, didInitialLoad]);
+
+  // Загрузка детальных данных о пространстве при изменении активного пространства
+  // Используем useCallback для предотвращения лишних вызовов
+  const loadActiveSpaceDetails = useCallback(() => {
     if (activeSpace) {
       fetchSpaceByCustomId(activeSpace);
     }
   }, [activeSpace, fetchSpaceByCustomId]);
 
-  const activeSpaceData = spaces.find(space => space.id === activeSpace);
+  useEffect(() => {
+    if (activeSpace) {
+      loadActiveSpaceDetails();
+    }
+  }, [activeSpace, loadActiveSpaceDetails]);
+
+  // Находим активное пространство в списке 
+  const activeSpaceData = spaces.find(space => 
+    (space.customId === activeSpace) || (space._id === activeSpace)
+  ) || {}; // Всегда возвращаем как минимум пустой объект для безопасной работы
 
   if (loading) {
     return (
@@ -76,11 +137,11 @@ const Spaces = () => {
           <div className="spaces-tabs">
             {spaces.map(space => (
               <button
-                key={space.id}
-                className={`spaces-tab ${activeSpace === space.id ? 'active' : ''}`}
-                onClick={() => setActiveSpace(space.id)}
+                key={getSafeValue(space, '_id', '')}
+                className={`spaces-tab ${activeSpace === (space.customId || space._id) ? 'active' : ''}`}
+                onClick={() => setActiveSpace(space.customId || space._id)}
               >
-                {space.name}
+                {getSafeValue(space, 'name', 'Пространство')}
               </button>
             ))}
           </div>
@@ -88,40 +149,72 @@ const Spaces = () => {
           <div className="spaces-content">
             <div className="spaces-gallery">
               <div className="spaces-main-image">
-                <img src={activeSpaceData.images[0]} alt={activeSpaceData.name} />
+                {/* Используем getSafeValue для безопасного доступа к данным */}
+                <img 
+                  src={getSafeValue(activeSpaceData, 'images', []).length > 0 
+                    ? getSafeValue(activeSpaceData, 'images[0]', '') 
+                    : getSafeValue(activeSpaceData, 'image', '/images/space-placeholder.jpg')} 
+                  alt={getSafeValue(activeSpaceData, 'name', 'Изображение пространства')}
+                  loading="lazy" 
+                />
               </div>
               <div className="spaces-thumbs">
-                {activeSpaceData.images.map((image, index) => (
-                  <div className="spaces-thumb" key={index}>
-                    <img src={image} alt={`${activeSpaceData.name} ${index + 1}`} />
+                {/* Используем getSafeValue для безопасного доступа к данным */}
+                {getSafeValue(activeSpaceData, 'images', []).length > 0 ? (
+                  getSafeValue(activeSpaceData, 'images', []).map((image, index) => (
+                    <div className="spaces-thumb" key={index}>
+                      <img 
+                        src={image} 
+                        alt={`${getSafeValue(activeSpaceData, 'name', 'Пространство')} ${index + 1}`} 
+                        loading="lazy"
+                      />
+                    </div>
+                  ))
+                ) : getSafeValue(activeSpaceData, 'image', '') ? (
+                  <div className="spaces-thumb">
+                    <img 
+                      src={getSafeValue(activeSpaceData, 'image', '/images/space-placeholder.jpg')} 
+                      alt={getSafeValue(activeSpaceData, 'name', 'Пространство')} 
+                      loading="lazy"
+                    />
                   </div>
-                ))}
+                ) : null}
               </div>
             </div>
             <div className="spaces-info">
-              <h2 className="spaces-title">{activeSpaceData.name}</h2>
+              <h2 className="spaces-title">{getSafeValue(activeSpaceData, 'name', 'Пространство')}</h2>
               
               <div className="spaces-meta">
                 <div className="spaces-meta-item">
-                  <strong>Вместимость:</strong> {activeSpaceData.capacity}
+                  <strong>Вместимость:</strong> {getSafeValue(activeSpaceData, 'capacity', 'Не указано')}
                 </div>
                 <div className="spaces-meta-item">
-                  <strong>Площадь:</strong> {activeSpaceData.size}
+                  <strong>Площадь:</strong> {getSafeValue(activeSpaceData, 'size') || getSafeValue(activeSpaceData, 'area', 'Не указано')} м²
                 </div>
               </div>
               
               <div className="spaces-description">
-                <p>{activeSpaceData.description}</p>
+                <p>{getSafeValue(activeSpaceData, 'description', 'Описание отсутствует')}</p>
               </div>
               
-              <div className="spaces-features">
-                <h3>Особенности и оборудование:</h3>
-                <ul className="spaces-features-list">
-                  {activeSpaceData.features.map((feature, index) => (
-                    <li key={index} className="spaces-feature-item">{feature}</li>
-                  ))}
-                </ul>
-              </div>
+              {/* Проверяем наличие массива features или equipment */}
+              {(getSafeValue(activeSpaceData, 'features', []).length > 0) || 
+               (getSafeValue(activeSpaceData, 'equipment', []).length > 0) ? (
+                <div className="spaces-features">
+                  <h3>Особенности и оборудование:</h3>
+                  <ul className="spaces-features-list">
+                    {/* Отображаем features, если они есть */}
+                    {getSafeValue(activeSpaceData, 'features', []).map((feature, index) => (
+                      <li key={`feature-${index}`} className="spaces-feature-item">{feature}</li>
+                    ))}
+                    
+                    {/* Отображаем equipment, если он есть */}
+                    {getSafeValue(activeSpaceData, 'equipment', []).map((item, index) => (
+                      <li key={`equipment-${index}`} className="spaces-feature-item">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
               
               <div className="spaces-actions">
                 <a href="/contacts" className="spaces-button">Забронировать</a>
@@ -137,7 +230,12 @@ const Spaces = () => {
         <div className="container">
           <h2 className="section-title text-center">Схема помещений</h2>
           <div className="spaces-layout-image">
-            <img src="/images/spaces/layout-map.jpg" alt="Схема помещений COLLIDER" />
+            {/* Используем импортированное изображение вместо прямого пути */}
+            <img 
+              src={layoutMapImage} 
+              alt="Схема помещений COLLIDER" 
+              loading="lazy"
+            />
           </div>
           <div className="spaces-layout-legend">
             <div className="spaces-legend-item">
@@ -159,7 +257,7 @@ const Spaces = () => {
             <div className="spaces-legend-item">
               <span className="spaces-legend-color" style={{backgroundColor: '#f59e0b'}}></span>
               <span className="spaces-legend-text">Кафе</span>
-              </div>
+            </div>
           </div>
         </div>
       </section>

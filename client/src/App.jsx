@@ -42,11 +42,41 @@ const News = lazy(() => import('./pages/Admin/News'));
 const RentRequests = lazy(() => import('./pages/Admin/RentRequests'));
 const AdminPromotion = lazy(() => import('./pages/Admin/Promotion'));
 
-// Loading fallback component
+// Loading fallback component with retry capability
 const PageLoader = () => {
   return (
     <div className="page-loader">
       <LoadingSpinner />
+    </div>
+  );
+};
+
+// Error fallback component for chunk loading errors
+const ChunkErrorFallback = ({ error, resetErrorBoundary }) => {
+  return (
+    <div className="page-error" style={{ 
+      padding: '2rem', 
+      textAlign: 'center',
+      margin: '2rem auto',
+      maxWidth: '800px'
+    }}>
+      <h2>Ошибка загрузки страницы</h2>
+      <p>Произошла ошибка при загрузке компонентов страницы.</p>
+      <button 
+        onClick={resetErrorBoundary} 
+        style={{
+          background: 'var(--accent-color)',
+          color: 'white',
+          border: 'none',
+          padding: '10px 20px',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          margin: '1rem 0'
+        }}
+      >
+        Попробовать снова
+      </button>
+      <p><small>Или попробуйте обновить страницу вручную.</small></p>
     </div>
   );
 };
@@ -56,7 +86,17 @@ const PageLayout = ({ children }) => (
   <div className="app">
     <Navbar />
     <main className="main-content">
-      <ErrorBoundary>
+      <ErrorBoundary
+        FallbackComponent={ChunkErrorFallback}
+        onReset={() => {
+          // Очистка кеша при ошибке
+          window.sessionStorage.removeItem('chunkLoadErrors');
+          // Попытка перезагрузить данные через небольшую задержку
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }}
+      >
         <Suspense fallback={<PageLoader />}>
           {children}
         </Suspense>
@@ -95,13 +135,23 @@ function App() {
             
             <Route path="/spaces" element={
               <PageLayout>
-                <Spaces />
+                <ErrorBoundary
+                  FallbackComponent={ChunkErrorFallback}
+                  onReset={() => window.location.reload()}
+                >
+                  <Spaces />
+                </ErrorBoundary>
               </PageLayout>
             } />
             
             <Route path="/residents" element={
               <PageLayout>
-                <Residents />
+                <ErrorBoundary
+                  FallbackComponent={ChunkErrorFallback}
+                  onReset={() => window.location.reload()}
+                >
+                  <Residents />
+                </ErrorBoundary>
               </PageLayout>
             } />
             
