@@ -1,0 +1,368 @@
+.about-hero {
+    position: relative;
+    height: 400px;
+    background-image: url('https://i.gifer.com/embedded/download/U1mp.gif');
+    background-size: cover;
+    background-position: center;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+  }
+  
+  .about-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .about-hero-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .about-hero-subtitle {
+    font-size: var(--font-size-lg);
+    max-width: 600px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .about-main {
+    background-color: var(--bg-light);
+  }
+  
+  .about-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+  
+  .about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .about-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    display: inline-block;
+  }
+  
+  .about-title:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+  }
+  
+  .about-content p {
+    margin-bottom: var(--spacing-md);
+    line-height: 1.7;
+  }
+  
+  .about-features {
+    background-color: var(--bg-dark);
+    color: var(--secondary-color);
+  }
+  
+  .about-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+  }
+  
+  .about-feature-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    transition: transform var(--transition-fast), background-color var(--transition-fast);
+  }
+  
+  .about-feature-card:hover {
+    transform: translateY(-5px);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .about-feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .about-feature-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .about-feature-description {
+    opacity: 0.9;
+  }
+  
+  .about-team {
+    background-color: var(--bg-light);
+  }
+  
+  .about-team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+  }
+  
+  .about-team-member {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  
+  .about-team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .about-team-photo {
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .about-team-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-medium);
+  }
+  
+  .about-team-member:hover .about-team-photo img {
+    transform: scale(1.05);
+  }
+  
+  .about-team-name {
+    font-size: var(--font-size-lg);
+    margin: var(--spacing-md) var(--spacing-md) var(--spacing-xs);
+    font-weight: 600;
+  }
+  
+  .about-team-position {
+    color: var(--accent-color);
+    font-weight: 500;
+    margin: 0 var(--spacing-md) var(--spacing-sm);
+  }
+  
+  .about-team-bio {
+    margin: 0 var(--spacing-md) var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: #666;
+  }
+  
+  .about-history {
+    background-color: var(--bg-dark);
+    color: var(--secondary-color);
+  }
+  
+  .about-timeline {
+    margin-top: var(--spacing-xl);
+    position: relative;
+  }
+  
+  .about-timeline:before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    height: 100%;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .about-timeline-item {
+    position: relative;
+    margin-bottom: var(--spacing-xl);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  
+  .about-timeline-item:nth-child(even) {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .about-timeline-item:nth-child(odd) .about-timeline-date {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: left;
+    padding-left: var(--spacing-lg);
+  }
+  
+  .about-timeline-item:nth-child(odd) .about-timeline-content {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: right;
+    padding-right: var(--spacing-lg);
+  }
+  
+  .about-timeline-item:nth-child(even) .about-timeline-date {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: right;
+    padding-right: var(--spacing-lg);
+  }
+  
+  .about-timeline-item:nth-child(even) .about-timeline-content {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: left;
+    padding-left: var(--spacing-lg);
+  }
+  
+  .about-timeline-item:before {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  
+  .about-timeline-date {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--accent-color);
+  }
+  
+  .about-timeline-content h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .about-timeline-content p {
+    opacity: 0.9;
+  }
+  
+  .about-contact {
+    background-image: url('/images/about-contact-bg.gif');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: var(--secondary-color);
+  }
+  
+  .about-contact:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .about-contact-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .about-contact-content h2 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .about-contact-content p {
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-lg);
+  }
+  
+  .about-contact-button {
+    display: inline-block;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: var(--border-radius-sm);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color var(--transition-fast);
+  }
+  
+  .about-contact-button:hover {
+    background-color: #e64500;
+  }
+  
+  @media (max-width: 992px) {
+    .about-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-timeline:before {
+      left: 30px;
+    }
+    
+    .about-timeline-item,
+    .about-timeline-item:nth-child(odd),
+    .about-timeline-item:nth-child(even) {
+      grid-template-columns: 1fr;
+      padding-left: 60px;
+    }
+    
+    .about-timeline-item:before {
+      left: 30px;
+    }
+    
+    .about-timeline-date,
+    .about-timeline-item:nth-child(odd) .about-timeline-date,
+    .about-timeline-item:nth-child(even) .about-timeline-date {
+      grid-column: 1;
+      text-align: left;
+      padding: 0;
+      margin-bottom: var(--spacing-xs);
+    }
+    
+    .about-timeline-content,
+    .about-timeline-item:nth-child(odd) .about-timeline-content,
+    .about-timeline-item:nth-child(even) .about-timeline-content {
+      grid-column: 1;
+      text-align: left;
+      padding: 0;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .about-hero {
+      height: 300px;
+    }
+    
+    .about-hero-title {
+      font-size: var(--font-size-2xl);
+    }
+    
+    .about-hero-subtitle {
+      font-size: var(--font-size-md);
+    }
+    
+    .about-timeline-item {
+      margin-bottom: var(--spacing-lg);
+    }
+  }

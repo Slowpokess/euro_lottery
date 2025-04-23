@@ -1,0 +1,233 @@
+/* Стили для списка оборудования */
+.admin-equipment-list {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+  }
+  
+  .admin-equipment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .admin-equipment-header h2 {
+    margin: 0;
+    font-size: var(--font-size-xl);
+  }
+  
+  .admin-equipment-filters {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
+  
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+  
+  .filter-group label {
+    font-weight: 500;
+  }
+  
+  .filter-group select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-sm);
+  }
+  
+  .admin-empty-list {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius-md);
+    color: #666;
+  }
+  
+  .admin-equipment-table-container {
+    overflow-x: auto;
+  }
+  
+  .admin-equipment-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .admin-equipment-table th,
+  .admin-equipment-table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .admin-equipment-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+  }
+  
+  .equipment-image-cell {
+    width: 80px;
+  }
+  
+  .equipment-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+  }
+  
+  .equipment-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+  }
+  
+  .status-available {
+    background-color: #e7f7ed;
+    color: #00a650;
+  }
+  
+  .status-unavailable {
+    background-color: #ffeeee;
+    color: #cc0000;
+  }
+  
+  .status-maintenance {
+    background-color: #fef8e7;
+    color: #f5a623;
+  }
+  
+  .equipment-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+  
+  /* Стили для формы оборудования */
+  .admin-equipment-form-container {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+  }
+  
+  .admin-equipment-form-container h2 {
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-xl);
+  }
+  
+  .admin-error-message {
+    background-color: #ffeeee;
+    color: #cc0000;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .admin-equipment-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+  }
+  
+  .admin-equipment-form .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .admin-equipment-form .form-group.full-width {
+    grid-column: span 2;
+  }
+  
+  .admin-equipment-form label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+  }
+  
+  .admin-equipment-form input,
+  .admin-equipment-form textarea,
+  .admin-equipment-form select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-md);
+  }
+  
+  .admin-equipment-form textarea {
+    resize: vertical;
+  }
+  
+  .admin-equipment-form input:focus,
+  .admin-equipment-form textarea:focus,
+  .admin-equipment-form select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 77, 0, 0.2);
+  }
+  
+  .image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+  }
+  
+  .image-preview-item {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+  }
+  
+  .image-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .specifications-container {
+    margin-top: var(--spacing-md);
+  }
+  
+  .specification-row {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .specification-row input {
+    flex: 1;
+  }
+  
+  .add-spec-btn {
+    margin-top: var(--spacing-sm);
+  }
+  
+  .form-buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+  
+  @media (max-width: 768px) {
+    .admin-equipment-form {
+      grid-template-columns: 1fr;
+    }
+  
+    .admin-equipment-form .form-group.full-width {
+      grid-column: 1;
+    }
+  
+    .specification-row {
+      flex-wrap: wrap;
+    }
+  }

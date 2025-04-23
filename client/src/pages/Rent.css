@@ -1,0 +1,663 @@
+.rent-hero {
+    position: relative;
+    height: 450px;
+    background-image: url('https://media.invisioncic.com/u324175/monthly_2016_12/946735979_audiofileissue.gif.59dce36ec242c005f34b9275b010118b.gif');
+    background-size: cover;
+    background-position: center;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  
+  .rent-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .rent-hero-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .rent-hero-subtitle {
+    font-size: var(--font-size-lg);
+    max-width: 600px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .rent-filters {
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .rent-search {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .rent-search input {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-md);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+  }
+  
+  .rent-search input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 77, 0, 0.2);
+    transform: scale(1.01);
+  }
+  
+  .rent-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    background-color: rgba(0, 0, 0, 0.03);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    justify-content: center;
+  }
+  
+  .rent-category-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .category-icon {
+    font-size: 1.2em;
+  }
+  
+  .rent-category-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 77, 0, 0.2);
+  }
+  
+  .rent-category-btn.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.7);
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+  
+  .rent-category-btn:hover:not(.active) {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rent-loading,
+  .rent-error,
+  .rent-empty {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .rent-error {
+    color: #cc0000;
+    background-color: #ffeeee;
+  }
+  
+  .rent-equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .rent-equipment-card {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #eee;
+    position: relative;
+  }
+  
+  .rent-equipment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(255, 77, 0, 0.2);
+  }
+  
+  .rent-equipment-card:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+  
+  .rent-equipment-card:hover:after {
+    transform: scaleX(1);
+  }
+  
+  .rent-equipment-image {
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .rent-equipment-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-medium);
+  }
+  
+  .rent-equipment-card:hover .rent-equipment-image img {
+    transform: scale(1.05);
+  }
+  
+  .rent-equipment-content {
+    padding: var(--spacing-md);
+  }
+  
+  .rent-equipment-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .rent-equipment-category {
+    display: inline-block;
+    padding: 2px 8px;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    font-size: var(--font-size-xs);
+    color: #666;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .rent-equipment-description {
+    margin-bottom: var(--spacing-md);
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .rent-equipment-specs {
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+  
+  .rent-equipment-specs h4 {
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+  }
+  
+  .rent-equipment-specs ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .rent-equipment-specs li {
+    margin-bottom: 4px;
+  }
+  
+  .spec-name {
+    font-weight: 500;
+  }
+  
+  .rent-equipment-price {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-md);
+    padding: 6px 12px;
+    background-color: rgba(255, 77, 0, 0.1);
+    border-radius: var(--border-radius-sm);
+    display: inline-block;
+  }
+  
+  .rent-order-btn {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .rent-order-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: all 0.6s;
+    z-index: -1;
+  }
+  
+  .rent-order-btn:hover {
+    background-color: #e64500;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 77, 0, 0.3);
+  }
+  
+  .rent-order-btn:hover:before {
+    left: 100%;
+  }
+  
+  .rent-contact {
+    background-color: var(--bg-dark);
+    color: var(--secondary-color);
+    text-align: center;
+  }
+  
+  .rent-contact-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .rent-contact-text {
+    max-width: 600px;
+    margin: 0 auto var(--spacing-lg);
+  }
+  
+  .rent-contact-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+  
+  .rent-contact-btn {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: var(--border-radius-sm);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+    font-weight: 500;
+  }
+  
+  .rent-contact-btn:hover {
+    background-color: #e64500;
+  }
+  
+  /* Модальное окно формы аренды */
+.rent-form-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+  overflow-y: auto;
+}
+
+.rent-form-modal {
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.rent-form-close {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  z-index: 1;
+}
+
+.rent-form-title {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-color);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid #eee;
+}
+
+.rent-form-equipment {
+  background-color: #f9f9f9;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.rent-form-equipment h3 {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
+
+.rent-form-equipment-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+.rent-form-equipment-image {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+}
+
+.rent-form-equipment-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rent-form-equipment-details {
+  flex: 1;
+}
+
+.rent-form-equipment-details h4 {
+  margin-bottom: 4px;
+  font-size: var(--font-size-md);
+}
+
+.rent-form-equipment-category {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  font-size: var(--font-size-xs);
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.rent-form-equipment-price {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.rent-form-equipment-controls {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  margin-top: var(--spacing-sm);
+  width: 100%;
+}
+
+.rent-form-quantity, .rent-form-days {
+  flex: 1;
+}
+
+.rent-form-quantity-control {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.rent-form-quantity-control button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.rent-form-quantity-control button:hover {
+  background-color: #eee;
+}
+
+.rent-form-quantity-control input {
+  width: 40px;
+  height: 30px;
+  border: 1px solid #ddd;
+  text-align: center;
+  margin: 0 4px;
+}
+
+.rent-form-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.rent-form-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.rent-form-section h3 {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-lg);
+}
+
+.rent-form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.rent-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.rent-form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.rent-form-group .required {
+  color: #cc0000;
+}
+
+.rent-form-group input,
+.rent-form-group select,
+.rent-form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-md);
+}
+
+.rent-form-group input:focus,
+.rent-form-group select:focus,
+.rent-form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(255, 77, 0, 0.2);
+}
+
+.rent-form-error {
+  border-color: #cc0000 !important;
+}
+
+.rent-form-error-message {
+  color: #cc0000;
+  font-size: var(--font-size-sm);
+  margin-top: 4px;
+}
+
+.rent-form-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.rent-form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rent-form-checkbox input {
+  width: auto;
+}
+
+.rent-form-submit-error {
+  background-color: #ffeeee;
+  color: #cc0000;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.rent-form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-lg);
+}
+
+.rent-form-cancel, .rent-form-submit, .rent-form-button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color var(--transition-fast);
+}
+
+.rent-form-cancel {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.rent-form-cancel:hover {
+  background-color: #e5e5e5;
+}
+
+.rent-form-submit, .rent-form-button {
+  background-color: var(--accent-color);
+  border: none;
+  color: white;
+}
+
+.rent-form-submit:hover, .rent-form-button:hover {
+  background-color: #e64500;
+}
+
+.rent-form-success {
+  text-align: center;
+  padding: var(--spacing-lg);
+}
+
+.rent-form-success-icon {
+  font-size: 48px;
+  color: var(--accent-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.rent-form-success h3 {
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-xl);
+}
+
+.rent-form-success p {
+  margin-bottom: var(--spacing-md);
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .rent-hero {
+    height: 300px;
+  }
+  
+  .rent-hero-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .rent-hero-subtitle {
+    font-size: var(--font-size-md);
+  }
+  
+  .rent-equipment-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .rent-contact-buttons {
+    flex-direction: column;
+  }
+  
+  .rent-form-sections {
+    grid-template-columns: 1fr;
+  }
+  
+  .rent-form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .rent-form-equipment-controls {
+    flex-direction: column;
+  }
+  
+  .rent-form-modal {
+    max-height: 95vh;
+    padding: var(--spacing-md);
+  }
+}

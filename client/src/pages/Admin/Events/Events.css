@@ -1,0 +1,255 @@
+/* Стили для списка событий */
+.admin-events-list {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+  }
+  
+  .admin-events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .admin-events-header h2 {
+    margin: 0;
+    font-size: var(--font-size-xl);
+  }
+  
+  .admin-events-filters {
+    display: flex;
+    margin-bottom: var(--spacing-lg);
+    gap: var(--spacing-sm);
+  }
+  
+  .admin-filter-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: #f5f5f5;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  
+  .admin-filter-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+  }
+  
+  .admin-events-empty {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius-md);
+    color: #666;
+  }
+  
+  .admin-events-table-container {
+    overflow-x: auto;
+  }
+  
+  .admin-events-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .admin-events-table th,
+  .admin-events-table td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .admin-events-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+  }
+  
+  .admin-event-image-cell {
+    width: 80px;
+  }
+  
+  .admin-event-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--border-radius-sm);
+  }
+  
+  .admin-event-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+  }
+  
+  .admin-event-status-upcoming {
+    background-color: #e6f7ff;
+    color: #0066cc;
+  }
+  
+  .admin-event-status-past {
+    background-color: #f5f5f5;
+    color: #666;
+  }
+  
+  .admin-event-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+  
+  /* Стили для формы события */
+  .admin-event-form-container {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+  }
+  
+  .admin-event-form-container h2 {
+    margin-bottom: var(--spacing-lg);
+    font-size: var(--font-size-xl);
+  }
+  
+  .admin-form-error {
+    background-color: #ffeeee;
+    color: #cc0000;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .admin-event-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .admin-event-form .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .admin-event-form .form-group:nth-child(3),
+  .admin-event-form .form-group:nth-child(4) {
+    grid-column: span 2;
+  }
+  
+  .admin-event-form label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+  }
+  
+  .admin-event-form input,
+  .admin-event-form textarea,
+  .admin-event-form select {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-md);
+  }
+  
+  .admin-event-form textarea {
+    resize: vertical;
+  }
+  
+  .admin-event-form input:focus,
+  .admin-event-form textarea:focus,
+  .admin-event-form select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 77, 0, 0.2);
+  }
+  
+  .image-upload-container {
+    margin-top: var(--spacing-sm);
+  }
+  
+  .image-preview {
+    margin-top: var(--spacing-md);
+    max-width: 200px;
+  }
+  
+  .image-preview img {
+    width: 100%;
+    border-radius: var(--border-radius-sm);
+  }
+  
+  .form-buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+  
+  /* Общие стили для кнопок в админ-панели */
+  .admin-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  .admin-btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+  }
+  
+  .admin-btn-primary:hover {
+    background-color: #e64500;
+  }
+  
+  .admin-btn-secondary {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .admin-btn-secondary:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .admin-btn-danger {
+    background-color: #ffeeee;
+    color: #cc0000;
+  }
+  
+  .admin-btn-danger:hover {
+    background-color: #ffdddd;
+  }
+  
+  .admin-btn-small {
+    padding: 5px 10px;
+    font-size: var(--font-size-xs);
+  }
+  
+  .admin-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .admin-loading {
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: #666;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-event-form {
+      grid-template-columns: 1fr;
+    }
+    
+    .admin-event-form .form-group:nth-child(3),
+    .admin-event-form .form-group:nth-child(4) {
+      grid-column: 1;
+    }
+  }

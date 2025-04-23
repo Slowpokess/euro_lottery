@@ -1,0 +1,326 @@
+.promotion-hero {
+  position: relative;
+  height: 500px;
+  background-image: url('../assets/images/about-hero.gif');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+}
+
+.promotion-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.promotion-hero-title {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.promotion-hero-subtitle {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Services Section */
+.promotion-services {
+  padding: 80px 0;
+}
+
+.promotion-services-title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.promotion-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.promotion-service-card {
+  background: #f8f8f8;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.promotion-service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.promotion-service-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.promotion-service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.promotion-service-card:hover .promotion-service-image img {
+  transform: scale(1.05);
+}
+
+.promotion-service-content {
+  padding: 20px;
+}
+
+.promotion-service-title {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.promotion-service-description {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* Process Section */
+.promotion-process {
+  padding: 80px 0;
+  background-color: #f4f4f4;
+}
+
+.promotion-process-title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.promotion-process-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.promotion-process-step {
+  flex: 0 0 calc(25% - 20px);
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.promotion-process-step-number {
+  width: 60px;
+  height: 60px;
+  background: #222;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 20px;
+}
+
+.promotion-process-step-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.promotion-process-step-description {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Contact Form Section */
+.promotion-contact-form {
+  padding: 80px 0;
+  background-color: #222;
+  color: #fff;
+}
+
+.promotion-contact-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.promotion-contact-text {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.promotion-contact-button {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #ff4d4d;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.promotion-contact-button:hover {
+  background-color: #e03c3c;
+}
+
+.promotion-contact-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
+/* Form Styles */
+.promotion-form {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.promotion-form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.promotion-form-group {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.promotion-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.promotion-form input[type="text"],
+.promotion-form input[type="email"],
+.promotion-form input[type="tel"],
+.promotion-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.promotion-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.promotion-form input::placeholder,
+.promotion-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.promotion-form-radio-group,
+.promotion-form-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.promotion-form-radio,
+.promotion-form-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.promotion-form-radio input,
+.promotion-form-checkbox input {
+  margin-right: 10px;
+}
+
+.promotion-form-submit {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.promotion-form-error {
+  background-color: rgba(255, 77, 77, 0.2);
+  border: 1px solid rgba(255, 77, 77, 0.5);
+  color: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.promotion-loading,
+.promotion-error {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.promotion-service-price {
+  font-weight: bold;
+  color: #ff4d4d;
+  margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .promotion-process-step {
+    flex: 0 0 calc(50% - 20px);
+    margin-bottom: 30px;
+  }
+  
+  .promotion-form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .promotion-hero {
+    height: 400px;
+  }
+  
+  .promotion-hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .promotion-process-step {
+    flex: 0 0 100%;
+  }
+  
+  .promotion-form-radio-group,
+  .promotion-form-checkbox-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .promotion-hero {
+    height: 350px;
+  }
+  
+  .promotion-hero-title {
+    font-size: 2rem;
+  }
+  
+  .promotion-form {
+    padding: 20px 15px;
+  }
+}

@@ -1,0 +1,56 @@
+###
+# Получение всего оборудования
+GET http://localhost:5000/api/equipment
+Content-Type: application/json
+
+###
+# Получение оборудования с параметрами
+GET http://localhost:5000/api/equipment?category=sound&status=available&limit=5
+Content-Type: application/json
+
+###
+# Получение оборудования по категории
+GET http://localhost:5000/api/equipment/category/sound
+Content-Type: application/json
+
+###
+# Получение одного оборудования по ID
+GET http://localhost:5000/api/equipment/6425f3c9c6e8f82e0ba54321
+Content-Type: application/json
+
+###
+# Создание нового оборудования (требует авторизации)
+POST http://localhost:5000/api/equipment
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "name": "Микшерный пульт MIDAS M32",
+  "category": "sound",
+  "description": "Профессиональный цифровой микшерный пульт MIDAS M32 с 32 входами и 16 выходами",
+  "price": 1500,
+  "priceUnit": "day",
+  "status": "available",
+  "specifications": {
+    "channels": "32 канала",
+    "outputs": "16 выходов",
+    "weight": "25 кг"
+  }
+}
+
+###
+# Обновление оборудования (требует авторизации)
+PUT http://localhost:5000/api/equipment/6425f3c9c6e8f82e0ba54321
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "name": "Обновленное название",
+  "price": 1800,
+  "status": "maintenance"
+}
+
+###
+# Удаление оборудования (требует авторизации админа)
+DELETE http://localhost:5000/api/equipment/6425f3c9c6e8f82e0ba54321
+Authorization: Bearer YOUR_TOKEN_HERE

@@ -1,0 +1,58 @@
+###
+# Получение всех новостей
+GET http://localhost:5000/api/news
+Content-Type: application/json
+
+###
+# Получение новостей с параметрами (опубликованные)
+GET http://localhost:5000/api/news?status=published&limit=2
+Content-Type: application/json
+
+###
+# Получение новостей по категории
+GET http://localhost:5000/api/news/category/news
+Content-Type: application/json
+
+###
+# Получение статистики новостей (требует авторизации)
+GET http://localhost:5000/api/news/stats/overview
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+###
+# Получение одной новости по ID
+GET http://localhost:5000/api/news/6425f3c9c6e8f82e0ba54321
+Content-Type: application/json
+
+###
+# Создание новой новости (требует авторизации)
+POST http://localhost:5000/api/news
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "title": "Тестовая новость",
+  "content": "<p>Содержание новости с <strong>HTML</strong> форматированием</p>",
+  "excerpt": "Краткое описание новости",
+  "status": "published",
+  "featured": true,
+  "categories": ["news", "tech"],
+  "tags": ["test", "api"]
+}
+
+###
+# Обновление новости (требует авторизации)
+PUT http://localhost:5000/api/news/6425f3c9c6e8f82e0ba54321
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "title": "Обновленный заголовок",
+  "content": "<p>Обновленное содержание</p>",
+  "status": "published"
+}
+
+###
+# Удаление новости (требует авторизации админа)
+DELETE http://localhost:5000/api/news/6425f3c9c6e8f82e0ba54321
+Authorization: Bearer YOUR_TOKEN_HERE

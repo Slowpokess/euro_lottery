@@ -1,0 +1,10 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Block specific paths (admin, API)
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://collider-club.com/sitemap.xml

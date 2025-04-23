@@ -1,0 +1,59 @@
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.spinner {
+  border-radius: 50%;
+  border-style: solid;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Sizes */
+.spinner-small .spinner {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.spinner-medium .spinner {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+}
+
+.spinner-large .spinner {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
+/* Colors */
+.spinner-primary .spinner {
+  border-color: #888;
+  border-top-color: transparent;
+}
+
+.spinner-secondary .spinner {
+  border-color: #6c757d;
+  border-top-color: transparent;
+}
+
+.spinner-light .spinner {
+  border-color: #f8f9fa;
+  border-top-color: transparent;
+}
+
+.spinner-dark .spinner {
+  border-color: #343a40;
+  border-top-color: transparent;
+}

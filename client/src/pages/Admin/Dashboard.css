@@ -1,0 +1,301 @@
+.admin-dashboard {
+    display: flex;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .admin-sidebar {
+    width: 280px;
+    background-color: var(--bg-dark);
+    color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1200; /* Увеличиваем z-index, чтобы админка всегда была поверх навбара */
+  }
+  
+  .admin-content {
+    flex: 1;
+    margin-left: 280px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .admin-sidebar-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .admin-logo {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .admin-subtitle {
+    font-size: var(--font-size-sm);
+    opacity: 0.7;
+  }
+  
+  .admin-nav {
+    flex: 1;
+    padding: var(--spacing-md) 0;
+    overflow-y: auto;
+  }
+  
+  .admin-nav-list {
+    list-style: none;
+  }
+  
+  .admin-nav-item {
+    margin-bottom: 2px;
+  }
+  
+  .admin-nav-link {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+  
+  .admin-nav-icon {
+    margin-right: var(--spacing-sm);
+    font-size: 1.2rem;
+  }
+  
+  .admin-nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .admin-nav-link.active {
+    background-color: var(--accent-color);
+    font-weight: 500;
+  }
+  
+  .admin-sidebar-footer {
+    padding: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .admin-user {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .admin-user-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .admin-user-role {
+    font-size: var(--font-size-xs);
+    opacity: 0.7;
+  }
+  
+  .admin-logout-btn {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--secondary-color);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  
+  .admin-logout-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .admin-header {
+    background-color: white;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .admin-page-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0;
+  }
+  
+  .admin-main {
+    flex: 1;
+    padding: var(--spacing-lg);
+  }
+  
+  .admin-dashboard-overview {
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .admin-dashboard-overview h2 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+  }
+  
+  .admin-dashboard-overview p {
+    color: #666;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .admin-dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .admin-stat-card {
+    background-color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  
+  .admin-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .admin-stat-title {
+    font-size: var(--font-size-sm);
+    color: #666;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .admin-stat-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .admin-stat-subtitle {
+    font-size: var(--font-size-xs);
+    color: #888;
+  }
+  
+  .admin-dashboard-quick-actions h3 {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+  }
+  
+  .admin-quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+  }
+  
+  .admin-quick-action-card {
+    background-color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-color);
+  }
+  
+  .admin-quick-action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .admin-quick-action-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .admin-quick-action-title {
+    font-weight: 500;
+  }
+  
+  .admin-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    font-size: var(--font-size-lg);
+  }
+  
+  /* Адаптивность для мобильных устройств */
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      width: 100%;
+      height: auto;
+      position: fixed;
+      bottom: 0;
+      top: auto;
+      z-index: 1200; /* Также увеличиваем z-index в мобильной версии */
+      transform: translateY(calc(100% - 50px));
+      transition: transform var(--transition-medium);
+    }
+    
+    .admin-sidebar.open {
+      transform: translateY(0);
+    }
+    
+    .admin-sidebar-header {
+      display: none;
+    }
+    
+    .admin-content {
+      margin-left: 0;
+      padding-bottom: 50px;
+    }
+    
+    .admin-dashboard-stats {
+      grid-template-columns: 1fr;
+    }
+    
+    .admin-quick-actions-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .admin-nav {
+      padding: 0;
+    }
+    
+    .admin-nav-list {
+      display: flex;
+      justify-content: space-around;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: 0;
+      flex: 1;
+    }
+    
+    .admin-nav-link {
+      flex-direction: column;
+      text-align: center;
+      padding: var(--spacing-sm);
+    }
+    
+    .admin-nav-icon {
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
+    
+    .admin-sidebar-footer {
+      display: none;
+    }
+  }

@@ -217,8 +217,8 @@ const Spaces = () => {
               ) : null}
               
               <div className="spaces-actions">
-                <a href="/contacts" className="spaces-button">Забронировать</a>
-                <a href="#pricing" className="spaces-button secondary">Цены и условия</a>
+                <a href="/contacts" className="spaces-button">Забронювати</a>
+                <a href="#pricing" className="spaces-button secondary">Ціни та умови</a>
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@ const Spaces = () => {
       {/* Секция схемы помещения */}
       <section className="spaces-layout section" id="layout">
         <div className="container">
-          <h2 className="section-title text-center">Схема помещений</h2>
+          <h2 className="section-title text-center">Схема приміщень</h2>
           <div className="spaces-layout-image">
             {/* Используем импортированное изображение вместо прямого пути */}
             <img 
@@ -240,11 +240,11 @@ const Spaces = () => {
           <div className="spaces-layout-legend">
             <div className="spaces-legend-item">
               <span className="spaces-legend-color" style={{backgroundColor: '#ff4d00'}}></span>
-              <span className="spaces-legend-text">Главный зал</span>
+              <span className="spaces-legend-text">Головний зал</span>
             </div>
             <div className="spaces-legend-item">
               <span className="spaces-legend-color" style={{backgroundColor: '#00a2ff'}}></span>
-              <span className="spaces-legend-text">Студия звукозаписи</span>
+              <span className="spaces-legend-text">Студія звукозапису</span>
             </div>
             <div className="spaces-legend-item">
               <span className="spaces-legend-color" style={{backgroundColor: '#85cc16'}}></span>
@@ -402,7 +402,7 @@ const Spaces = () => {
             <p>Готовы обсудить ваше мероприятие? Свяжитесь с нами для уточнения деталей и бронирования.</p>
             <div className="spaces-contact-buttons">
               <a href="/contacts" className="spaces-contact-button">Отправить заявку</a>
-              <a href="tel:+380991234567" className="spaces-contact-button secondary">+38 (099) 123-45-67</a>
+              <a href="tel:+380685980007" className="spaces-contact-button secondary">+38 (068) 598-00-007</a>
             </div>
           </div>
         </div>

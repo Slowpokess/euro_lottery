@@ -1,0 +1,116 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    z-index: 1000;
+    transition: background-color var(--transition-fast);
+    pointer-events: auto;
+  }
+  
+  .navbar.scrolled {
+    background-color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .navbar-logo {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--secondary-color);
+    letter-spacing: 2px;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    gap: var(--spacing-lg);
+  }
+  
+  .nav-link {
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+    position: relative;
+    z-index: 1001;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .nav-link:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width var(--transition-fast);
+  }
+  
+  .nav-link:hover:after,
+  .nav-link.active:after {
+    width: 100%;
+  }
+  
+  .nav-link:hover {
+    color: var(--accent-color);
+  }
+  
+  .navbar-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+  }
+  
+  .navbar-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--secondary-color);
+    transition: all var(--transition-fast);
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-toggle {
+      display: flex;
+    }
+  
+    .navbar-menu {
+      position: fixed;
+      top: var(--header-height);
+      right: -100%;
+      width: 70%;
+      height: calc(100vh - var(--header-height));
+      background-color: rgba(0, 0, 0, 0.95);
+      transition: right var(--transition-fast);
+      z-index: 999;
+    }
+  
+    .navbar-menu.open {
+      right: 0;
+    }
+  
+    .navbar-nav {
+      flex-direction: column;
+      padding: var(--spacing-lg);
+      gap: var(--spacing-md);
+    }
+  
+    .nav-link {
+      display: block;
+      padding: var(--spacing-sm) 0;
+      font-size: var(--font-size-md);
+    }
+  }

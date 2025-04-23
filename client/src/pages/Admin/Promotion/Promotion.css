@@ -1,0 +1,285 @@
+.admin-promotion-container {
+  padding: 20px;
+}
+
+.admin-promotion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin-promotion-title {
+  margin: 0;
+}
+
+.admin-promotion-add-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.admin-promotion-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.admin-promotion-tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s ease;
+}
+
+.admin-promotion-tab.active {
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
+  border-radius: 4px 4px 0 0;
+  font-weight: bold;
+  background-color: #fff;
+}
+
+.admin-promotion-tab:hover:not(.active) {
+  background-color: #f5f5f5;
+}
+
+/* Services Table */
+.admin-promotion-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.admin-promotion-table th,
+.admin-promotion-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.admin-promotion-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.admin-promotion-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.admin-promotion-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.admin-promotion-action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-promotion-edit-button,
+.admin-promotion-delete-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.admin-promotion-edit-button {
+  background-color: #2196F3;
+  color: white;
+}
+
+.admin-promotion-delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Contacts Table */
+.admin-promotion-contact-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+.admin-promotion-contact-status-new {
+  background-color: #2196F3;
+  color: white;
+}
+
+.admin-promotion-contact-status-contacted {
+  background-color: #FF9800;
+  color: white;
+}
+
+.admin-promotion-contact-status-in-progress {
+  background-color: #9C27B0;
+  color: white;
+}
+
+.admin-promotion-contact-status-completed {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.admin-promotion-contact-status-cancelled {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Forms */
+.admin-promotion-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.admin-promotion-form-group {
+  margin-bottom: 20px;
+}
+
+.admin-promotion-form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.admin-promotion-form-input,
+.admin-promotion-form-textarea,
+.admin-promotion-form-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.admin-promotion-form-textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.admin-promotion-form-features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.admin-promotion-feature-item {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-promotion-feature-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.admin-promotion-form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.admin-promotion-cancel-button,
+.admin-promotion-submit-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.admin-promotion-cancel-button {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.admin-promotion-submit-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.admin-promotion-submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Contact Detail View */
+.admin-promotion-contact-details {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-promotion-contact-detail-row {
+  margin-bottom: 15px;
+}
+
+.admin-promotion-contact-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.admin-promotion-contact-value {
+  background-color: #fff;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.admin-promotion-contact-message {
+  white-space: pre-line;
+  min-height: 100px;
+}
+
+.admin-promotion-note-textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.admin-promotion-contact-services,
+.admin-promotion-contact-budget {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.admin-promotion-contact-service-tag,
+.admin-promotion-contact-budget-tag {
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.admin-loading {
+  text-align: center;
+  padding: 30px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.admin-error {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}

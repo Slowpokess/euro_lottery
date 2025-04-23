@@ -1,0 +1,209 @@
+{
+  "about": {
+    "hero": {
+      "title": "About Us",
+      "subtitle": "Creative cluster consisting of various multifunctional spaces, workshops, studios and music schools"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "p1": "COLLIDER is a creative cultural cluster created to unite various forms of art, technology and creativity under one roof. We strive to create a unique environment where talented people can experiment, interact and create new art forms.",
+      "p2": "The name COLLIDER reflects our philosophy - we create a platform for the collision of ideas, cultures and creative energies, which as a result of interaction give birth to something new and unique."
+    },
+    "features": {
+      "title": "Venue Features",
+      "sound": {
+        "title": "Sound Systems",
+        "description": "World-class professional sound equipment for concerts, parties and sound recording."
+      },
+      "light": {
+        "title": "Lighting Solutions",
+        "description": "Comprehensive lighting equipment, projections and laser systems for creating unique visual effects."
+      },
+      "workshops": {
+        "title": "Workshops",
+        "description": "Spaces for creativity where artists, designers and craftsmen can work on their projects."
+      },
+      "education": {
+        "title": "Education",
+        "description": "Conducting master classes, lectures and educational programs in the field of audio and visual art."
+      }
+    },
+    "team": {
+      "title": "Our Team",
+      "member1": {
+        "name": "Alexander Petrenko",
+        "position": "Creative Director",
+        "bio": "Event organizer with 10 years of experience in the music industry."
+      },
+      "member2": {
+        "name": "Maria Kovalchuk",
+        "position": "Technical Director",
+        "bio": "Sound engineer and lighting designer, worked on the largest festivals in Ukraine."
+      },
+      "member3": {
+        "name": "Andrey Zayets",
+        "position": "Art Director",
+        "bio": "Visual artist, curator of art exhibitions and art installations."
+      },
+      "member4": {
+        "name": "Yulia Mazur",
+        "position": "Project Manager",
+        "bio": "Coordinates all projects and events, has experience in managing cultural initiatives."
+      }
+    },
+    "history": {
+      "title": "COLLIDER History",
+      "event1": {
+        "date": "2023",
+        "title": "Cluster Opening",
+        "description": "Grand opening of COLLIDER as a multifunctional platform for creativity and cultural events."
+      },
+      "event2": {
+        "date": "2023-2024",
+        "title": "Residency Development",
+        "description": "Launch of a residency program for artists, musicians and technical specialists in the field of audio-visual art."
+      },
+      "event3": {
+        "date": "2024",
+        "title": "International Cooperation",
+        "description": "Establishing partnerships with international cultural centers and creative organizations."
+      },
+      "event4": {
+        "date": "2025",
+        "title": "Space Expansion",
+        "description": "Opening of new premises, studios and workshops, launch of an educational program in sound and lighting design."
+      }
+    },
+    "contact": {
+      "title": "Join Us",
+      "description": "Are you an artist, musician, producer, designer or just interested in art? We are always open to new ideas and collaborations.",
+      "button": "Contact Us"
+    }
+  },
+  "contacts": {
+    "hero": {
+      "title": "Contacts",
+      "subtitle": "Get in touch with us for all inquiries"
+    },
+    "info": {
+      "title": "Contact Information",
+      "address": "Address",
+      "addressLine": "Kyiv, Obolonsky Avenue, 36",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "form": {
+      "title": "Contact Form",
+      "name": "Your Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "selectSubject": "Select a subject",
+      "subjectOptions": {
+        "general": "General Inquiry",
+        "booking": "Space Booking",
+        "equipment": "Equipment Rental",
+        "collaboration": "Collaboration",
+        "residency": "Residency",
+        "other": "Other"
+      },
+      "message": "Message",
+      "button": "Send Message",
+      "success": "Your message has been sent!",
+      "error": "Error sending message. Please try again.",
+      "newMessage": "Send another message",
+      "thankYou": "Thank you for your message!",
+      "willContact": "We will contact you shortly.",
+      "errors": {
+        "name": "Please enter your name",
+        "emailRequired": "Please enter your email",
+        "emailInvalid": "Please enter a valid email",
+        "subject": "Please select a subject",
+        "message": "Please enter your message"
+      }
+    },
+    "hours": {
+      "title": "Opening Hours",
+      "weekdays": "Monday - Friday",
+      "weekdaysHours": "11:00 - 22:00",
+      "weekend": "Saturday - Sunday",
+      "weekendHours": "12:00 - 23:00"
+    },
+    "promoters": {
+      "title": "For Promoters",
+      "subtitle": "Want to host an event with us?",
+      "description": "We offer our space for various events, from concerts and parties to exhibitions and workshops. Contact us to discuss the details.",
+      "button": "Submit Request"
+    }
+  },
+  "events": {
+    "title": "Events",
+    "subtitle": "Stay up to date with all upcoming events at the COLLIDER cultural cluster",
+    "upcoming": "Upcoming Events",
+    "past": "Past Events",
+    "error": "Error loading events",
+    "loading": "Loading events...",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "completed": "Completed",
+    "subscribeTitle": "Don't miss new events",
+    "subscribeText": "Subscribe to our newsletter to receive notifications about new events and special offers",
+    "emailPlaceholder": "Your email",
+    "subscribeButton": "Subscribe",
+    "filter": {
+      "all": "All",
+      "concerts": "Concerts",
+      "exhibitions": "Exhibitions",
+      "workshops": "Workshops",
+      "parties": "Parties"
+    },
+    "viewDetails": "View Details",
+    "bookTickets": "Book Tickets",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "organizer": "Organizer",
+    "description": "Description",
+    "noEvents": "No events found"
+  },
+  "residents": {
+    "hero": {
+      "title": "Residents",
+      "subtitle": "Meet the artists and creators who call COLLIDER home"
+    }
+  },
+  "spaces": {
+    "hero": {
+      "title": "Spaces",
+      "subtitle": "Explore our multifunctional venues"
+    }
+  },
+  "rent": {
+    "title": "Rent Space",
+    "subtitle": "Book our space for your event"
+  },
+  "common": {
+    "loading": "Loading...",
+    "readMore": "Read More",
+    "joinUs": "Join Us",
+    "error": "An error occurred. Please try again."
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "events": "Events",
+    "residents": "Residents",
+    "spaces": "Spaces",
+    "rent": "Rent",
+    "contacts": "Contacts",
+    "admin": "Admin"
+  },
+  "footer": {
+    "about": "About COLLIDER",
+    "aboutText": "COLLIDER is a creative cultural cluster uniting various forms of art, technology and creativity under one roof.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Us",
+    "social": "Social Media",
+    "copyright": "© 2024 COLLIDER. All rights reserved."
+  }
+}

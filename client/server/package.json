@@ -1,0 +1,51 @@
+{
+  "name": "collider-server",
+  "version": "1.0.0",
+  "description": "API server for the Collider application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seed:residents": "node utils/seedResidents.js",
+    "seed:spaces": "node utils/seedSpaces.js",
+    "seed:promotions": "node utils/seedPromotions.js",
+    "seed:admin": "node utils/seedAdmin.js",
+    "seed": "npm run seed:admin && npm run seed:residents && npm run seed:spaces && npm run seed:promotions",
+    "setup": "npm run seed:admin",
+    "test": "mocha test/unit_tests.js",
+    "test:api": "mocha test/api_tests.js",
+    "test:all": "mocha test/*.js",
+    "vercel-build": "echo 'Building API server'"
+  },
+  "keywords": [
+    "techno club",
+    "music venue",
+    "events",
+    "api"
+  ],
+  "author": "Collider Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.1",
+    "multer": "^1.4.5-lts.2"
+  },
+  "devDependencies": {
+    "chai": "^4.5.0",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.8.2",
+    "nodemon": "^3.1.9",
+    "supertest": "^6.3.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -1,0 +1,23 @@
+.three-sections-block {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--bg-dark);
+  }
+  
+  .sections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+  
+  @media (max-width: 992px) {
+    .sections-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .sections-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }

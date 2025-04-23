@@ -1,0 +1,54 @@
+###
+# Получение всех событий
+GET http://localhost:5000/api/events
+Content-Type: application/json
+
+###
+# Получение событий с параметрами
+GET http://localhost:5000/api/events?status=upcoming&featured=true&limit=3
+Content-Type: application/json
+
+###
+# Получение событий по статусу
+GET http://localhost:5000/api/events/status/upcoming
+Content-Type: application/json
+
+###
+# Получение одного события по ID
+GET http://localhost:5000/api/events/6425f3c9c6e8f82e0ba54321
+Content-Type: application/json
+
+###
+# Создание нового события (требует авторизации)
+POST http://localhost:5000/api/events
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "title": "Night Grooves: Deep House & Techno",
+  "description": "Ночь глубокого хауса и техно. Приходите насладиться качественной музыкой и атмосферой.",
+  "date": "2025-05-15",
+  "time": "22:00 - 06:00",
+  "location": "Main Hall",
+  "featured": true,
+  "status": "upcoming",
+  "artists": ["DJ Electric", "DJ Pulse"],
+  "ticketLink": "https://example.com/tickets"
+}
+
+###
+# Обновление события (требует авторизации)
+PUT http://localhost:5000/api/events/6425f3c9c6e8f82e0ba54321
+Content-Type: application/json
+Authorization: Bearer YOUR_TOKEN_HERE
+
+{
+  "title": "Night Grooves: Special Edition",
+  "time": "23:00 - 07:00",
+  "artists": ["DJ Electric", "DJ Pulse", "Special Guest"]
+}
+
+###
+# Удаление события (требует авторизации админа)
+DELETE http://localhost:5000/api/events/6425f3c9c6e8f82e0ba54321
+Authorization: Bearer YOUR_TOKEN_HERE

@@ -1,0 +1,58 @@
+.rent-section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    padding: var(--spacing-xl) 0;
+    color: var(--secondary-color);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .rent-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+  
+  .rent-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+  }
+  
+  .rent-title {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  .rent-description {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 768px) {
+    .rent-section {
+      min-height: 300px;
+      text-align: center;
+    }
+    
+    .rent-content {
+      margin: 0 auto;
+    }
+    
+    .rent-title {
+      font-size: var(--font-size-xl);
+    }
+    
+    .rent-description {
+      font-size: var(--font-size-md);
+    }
+  }

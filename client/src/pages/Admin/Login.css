@@ -1,0 +1,89 @@
+.admin-login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+    padding: var(--spacing-md);
+  }
+  
+  .admin-login-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .admin-login-logo {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    color: var(--accent-color);
+    letter-spacing: 2px;
+  }
+  
+  .admin-login-title {
+    font-size: var(--font-size-lg);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--primary-color);
+  }
+  
+  .admin-login-error {
+    background-color: #ffeeee;
+    color: #cc0000;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+  }
+  
+  .admin-login-form .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .admin-login-form label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    color: var(--primary-color);
+  }
+  
+  .admin-login-form input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-md);
+  }
+  
+  .admin-login-form input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(255, 77, 0, 0.2);
+  }
+  
+  .admin-login-button {
+    width: 100%;
+    padding: var(--spacing-md);
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+  
+  .admin-login-button:hover {
+    background-color: #e64500;
+  }
+  
+  .admin-login-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }

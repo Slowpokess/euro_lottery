@@ -1,0 +1,277 @@
+.events-hero {
+    position: relative;
+    height: 400px;
+    background-image: url('/images/events-background.gif');
+    background-size: cover;
+    background-position: center;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+  }
+  
+  .events-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .events-hero-title {
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .events-hero-subtitle {
+    font-size: var(--font-size-lg);
+    max-width: 600px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .events-section {
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .events-section-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    display: inline-block;
+  }
+  
+  .events-section-title:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+  }
+  
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .event-card {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .past-event {
+    opacity: 0.8;
+  }
+  
+  .event-card-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .event-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-medium);
+  }
+  
+  .event-card:hover .event-card-image img {
+    transform: scale(1.05);
+  }
+  
+  .event-card-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: var(--font-size-xs);
+  }
+  
+  .event-card-content {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .event-card-date {
+    font-size: var(--font-size-sm);
+    color: var(--accent-color);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+  }
+  
+  .event-card-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+  }
+  
+  .event-card-description {
+    margin-bottom: var(--spacing-md);
+    color: #333;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .event-card-button {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--accent-color);
+    color: white;
+    text-align: center;
+    border-radius: var(--border-radius-sm);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+    font-weight: 500;
+  }
+  
+  .event-card-button:hover {
+    background-color: #e64500;
+  }
+  
+  .event-card-button.secondary {
+    background-color: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+  }
+  
+  .event-card-button.secondary:hover {
+    background-color: rgba(255, 77, 0, 0.1);
+  }
+  
+  .events-more {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+  }
+  
+  .events-more-button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: transparent;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+  
+  .events-more-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .events-loading,
+  .events-error,
+  .events-empty {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background-color: #f9f9f9;
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .events-error {
+    color: #cc0000;
+    background-color: #ffeeee;
+  }
+  
+  .events-subscribe {
+    background-color: var(--bg-dark);
+    color: var(--secondary-color);
+    text-align: center;
+  }
+  
+  .events-subscribe-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .events-subscribe-text {
+    max-width: 600px;
+    margin: 0 auto var(--spacing-lg);
+  }
+  
+  .events-subscribe-form {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .events-subscribe-form input {
+    flex: 1;
+    padding: var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+    font-size: var(--font-size-md);
+  }
+  
+  .events-subscribe-form button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    font-weight: 500;
+  }
+  
+  .events-subscribe-form button:hover {
+    background-color: #e64500;
+  }
+  
+  @media (max-width: 768px) {
+    .events-hero {
+      height: 300px;
+    }
+    
+    .events-hero-title {
+      font-size: var(--font-size-2xl);
+    }
+    
+    .events-hero-subtitle {
+      font-size: var(--font-size-md);
+    }
+    
+    .events-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .events-subscribe-form {
+      flex-direction: column;
+    }
+    
+    .events-subscribe-form input {
+      border-radius: var(--border-radius-sm);
+      margin-bottom: var(--spacing-sm);
+    }
+    
+    .events-subscribe-form button {
+      border-radius: var(--border-radius-sm);
+    }
+  }
