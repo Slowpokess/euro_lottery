@@ -1,11 +1,39 @@
 {
   "version": 2,
   "builds": [
-    { "src": "package.json", "use": "@vercel/static-build" }
+    { "src": "server/app.js", "use": "@vercel/node" },
+    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "build" } }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "https://collider-api.vercel.app/api/$1" },
-    { "src": "^/static/(.*)", "dest": "/static/$1" },
-    { "src": ".*", "dest": "/index.html" }
+    { 
+      "src": "/api/(.*)", 
+      "dest": "/server/app.js",
+      "headers": {
+        "Cache-Control": "s-maxage=0"
+      }
+    },
+    { 
+      "src": "/uploads/(.*)", 
+      "dest": "/server/uploads/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/build/static/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    { 
+      "src": "/(.*)", 
+      "dest": "/build/$1",
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/build/index.html"
+    }
   ]
 }
