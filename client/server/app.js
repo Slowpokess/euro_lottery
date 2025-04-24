@@ -58,7 +58,7 @@ setTimeout(() => {
 if (process.env.NODE_ENV === 'production') {
   app.use(helmet());
   
-  // Set security headers
+  // Подробные настройки Content Security Policy
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
@@ -66,16 +66,27 @@ if (process.env.NODE_ENV === 'production') {
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:", "https://collider-club.com", "https://*.collider-club.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      connectSrc: ["'self'", "https://collider-club.com", "https://*.collider-club.com"]
+      connectSrc: ["'self'", "https://collider-club.com", "https://*.collider-club.com"],
+      frameSrc: ["'none'"],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: []
     }
   }));
   
-  // Add rate limiting
+  // Улучшенные настройки для rate-limit
   const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again after 15 minutes'
+    windowMs: process.env.RATE_LIMIT_WINDOW 
+      ? parseInt(process.env.RATE_LIMIT_WINDOW) * 60 * 1000 
+      : 15 * 60 * 1000, // По умолчанию 15 минут
+    max: process.env.RATE_LIMIT_MAX 
+      ? parseInt(process.env.RATE_LIMIT_MAX) 
+      : 100, // По умолчанию 100 запросов
+    standardHeaders: true, // Возвращает `RateLimit-*` заголовки
+    legacyHeaders: false, // Отключает заголовки `X-RateLimit-*`
+    message: { success: false, error: 'Слишком много запросов, пожалуйста, повторите попытку позже' }
   });
+  
+  // Применяем лимитирование к API запросам
   app.use('/api/', apiLimiter);
 }
 
@@ -84,10 +95,23 @@ app.use(mongoSanitize());
 
 // CORS configuration
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: (origin, callback) => {
+    // Разрешаем запросы без origin (например, мобильные приложения)
+    // и запросы с разрешенного origin из переменной окружения
+    const allowedOrigins = process.env.CORS_ORIGIN 
+      ? process.env.CORS_ORIGIN.split(',') 
+      : ['http://localhost:3000'];
+    
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Не разрешено CORS политикой'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  maxAge: 86400 // кэширование предварительных запросов на 24 часа
 }));
 
 // JSON and form parsing with larger limits for file uploads
