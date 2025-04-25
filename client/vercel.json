@@ -26,13 +26,28 @@
         "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
-    { 
-      "src": "/(.*)", 
-      "dest": "/build/$1",
-      "continue": true
+    {
+      "src": "/favicon.ico",
+      "dest": "/build/favicon.ico"
     },
     {
-      "src": "/(.*)",
+      "src": "/manifest.json",
+      "dest": "/build/manifest.json"
+    },
+    {
+      "src": "/logo192.png",
+      "dest": "/build/logo192.png"
+    },
+    {
+      "src": "/logo512.png",
+      "dest": "/build/logo512.png"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/build/robots.txt"
+    },
+    { 
+      "src": "/(.*)", 
       "dest": "/build/index.html"
     }
   ],
@@ -44,7 +59,7 @@
     "JWT_EXPIRE": "30d",
     "CORS_ORIGIN": "https://collider-cluster.vercel.app",
     "MAX_FILE_UPLOAD": "5242880",
-    "FILE_UPLOAD_PATH": "./uploads",
+    "FILE_UPLOAD_PATH": "/tmp/uploads",
     "RATE_LIMIT_WINDOW": "15",
     "RATE_LIMIT_MAX": "100"
   }

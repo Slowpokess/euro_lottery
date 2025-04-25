@@ -5,14 +5,14 @@ const crypto = require('crypto');
 const ErrorResponse = require('../utils/errorResponse');
 
 /**
- * Secure file upload middleware with enhanced validation
- * - Validates file types using both mimetype and extension
- * - Uses crypto for secure filename generation
- * - Creates upload directories if they don't exist
- * - Includes size limits and file count restrictions
+ * Безопасный middleware для загрузки файлов с улучшенной валидацией
+ * - Проверяет типы файлов по mimetype и расширению
+ * - Использует crypto для генерации безопасных имен файлов
+ * - Создает директории для загрузки, если они не существуют
+ * - Включает ограничения размера и количества файлов
  */
 
-// Allowed file types map with corresponding extensions and mimetypes
+// Разрешенные типы файлов с соответствующими расширениями и MIME-типами
 const ALLOWED_FILE_TYPES = {
   image: {
     extensions: ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
@@ -24,43 +24,53 @@ const ALLOWED_FILE_TYPES = {
   }
 };
 
-// Create secure upload path based on resource type
+// Создание безопасного пути загрузки в зависимости от типа ресурса
 const getUploadPath = (resourceType) => {
-  // List of valid resource directories
+  // Список валидных директорий ресурсов
   const validResources = ['events', 'equipment', 'news', 'promotions', 'residents', 'spaces'];
   
-  // Default to a general uploads directory if not recognized
+  // По умолчанию общая папка загрузок
   const resource = validResources.includes(resourceType) ? resourceType : 'general';
   
-  // Construct the full path
-  const uploadPath = path.join('uploads', resource);
+  // Конструируем полный путь
+  // Используем переменную окружения FILE_UPLOAD_PATH, если она определена
+  const baseUploadPath = process.env.FILE_UPLOAD_PATH || './uploads';
+  const uploadPath = path.join(baseUploadPath, resource);
   
-  // Ensure directory exists
-  if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath, { recursive: true });
+  // Проверяем существование директории
+  try {
+    if (!fs.existsSync(uploadPath)) {
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+  } catch (error) {
+    console.error(`Ошибка создания директории ${uploadPath}: ${error.message}`);
+    // В Vercel используем временную директорию в случае ошибки
+    if (process.env.NODE_ENV === 'production') {
+      return '/tmp';
+    }
   }
   
   return uploadPath;
 };
 
-// Generate secure filename
+// Генерация безопасного имени файла
 const generateSecureFilename = (file) => {
-  // Get original extension
+  // Получаем оригинальное расширение
   const originalExt = path.extname(file.originalname).toLowerCase();
   
-  // Generate UUID-like random string using crypto
+  // Генерируем случайную строку похожую на UUID с помощью crypto
   const randomBytes = crypto.randomBytes(16).toString('hex');
   
-  // Add timestamp for additional uniqueness
+  // Добавляем временную метку для дополнительной уникальности
   const timestamp = Date.now();
   
-  // Combine parts for a secure filename
+  // Комбинируем части для безопасного имени файла
   return `${timestamp}-${randomBytes}${originalExt}`;
 };
 
-// Extract resource type from request URL
+// Извлечение типа ресурса из URL запроса
 const getResourceType = (req) => {
-  // Extract resource type from URL path
+  // Извлекаем тип ресурса из пути URL
   const urlParts = req.baseUrl.split('/');
   const resourceIndex = urlParts.indexOf('api') + 1;
   
@@ -71,17 +81,17 @@ const getResourceType = (req) => {
   return 'general';
 };
 
-// Configure storage
+// Настройка хранилища
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     try {
-      // Determine resource type and get upload path
+      // Определяем тип ресурса и получаем путь загрузки
       const resourceType = getResourceType(req);
       const uploadPath = getUploadPath(resourceType);
       
       cb(null, uploadPath);
     } catch (error) {
-      cb(new ErrorResponse('File upload destination error', 500));
+      cb(new ErrorResponse('Ошибка определения директории для загрузки файла', 500, 'Ошибка загрузки файла'));
     }
   },
   
@@ -90,24 +100,24 @@ const storage = multer.diskStorage({
       const secureFilename = generateSecureFilename(file);
       cb(null, secureFilename);
     } catch (error) {
-      cb(new ErrorResponse('File naming error', 500));
+      cb(new ErrorResponse('Ошибка при создании имени файла', 500, 'Ошибка загрузки файла'));
     }
   }
 });
 
-// Enhanced file filter with both mimetype and extension validation
+// Улучшенный фильтр файлов с проверкой mimetype и расширения
 const fileFilter = (req, file, cb) => {
   try {
-    // Get file extension and check if it's allowed
+    // Получаем расширение файла и проверяем, разрешено ли оно
     const ext = path.extname(file.originalname).toLowerCase();
     const mimetype = file.mimetype.toLowerCase();
     
-    // Check if this is an image upload
+    // Проверяем, является ли это загрузкой изображения
     const isValidImage = 
       ALLOWED_FILE_TYPES.image.extensions.includes(ext) &&
       ALLOWED_FILE_TYPES.image.mimetypes.includes(mimetype);
     
-    // Check if this is a document upload (for PDFs etc.)
+    // Проверяем, является ли это загрузкой документа (PDF и т.д.)
     const isValidDocument = 
       ALLOWED_FILE_TYPES.document.extensions.includes(ext) &&
       ALLOWED_FILE_TYPES.document.mimetypes.includes(mimetype);
@@ -116,23 +126,23 @@ const fileFilter = (req, file, cb) => {
       cb(null, true);
     } else {
       cb(new ErrorResponse(
-        'Invalid file type. Only JPG, PNG, GIF, WEBP and PDF files are allowed.',
+        'Недопустимый тип файла. Разрешены только JPG, PNG, GIF, WEBP и PDF файлы.',
         400,
         'Недопустимый тип файла. Разрешены только JPG, PNG, GIF, WEBP и PDF файлы.'
       ), false);
     }
   } catch (error) {
-    cb(new ErrorResponse('File validation error', 400));
+    cb(new ErrorResponse('Ошибка при проверке файла', 400, 'Ошибка при валидации файла'));
   }
 };
 
-// Initialize multer with enhanced settings
+// Инициализация multer с улучшенными настройками
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024, // 5 MB file size limit
-    files: 5 // Maximum 5 files per upload
+    fileSize: process.env.MAX_FILE_UPLOAD ? parseInt(process.env.MAX_FILE_UPLOAD) : 5 * 1024 * 1024, // По умолчанию 5MB
+    files: 5 // Максимум 5 файлов за один раз
   }
 });
 
