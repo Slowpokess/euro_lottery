@@ -46,6 +46,38 @@
       "src": "/robots.txt",
       "dest": "/build/robots.txt"
     },
+    {
+      "src": "/admin(.*)",
+      "dest": "/build/index.html" 
+    },
+    {
+      "src": "/about(.*)",
+      "dest": "/build/index.html"
+    },
+    {
+      "src": "/spaces(.*)",
+      "dest": "/build/index.html"
+    },
+    {
+      "src": "/residents(.*)",
+      "dest": "/build/index.html"
+    },
+    {
+      "src": "/events(.*)",
+      "dest": "/build/index.html"
+    },
+    {
+      "src": "/rent(.*)",
+      "dest": "/build/index.html"
+    },
+    {
+      "src": "/promotion(.*)",
+      "dest": "/build/index.html"
+    },
+    {
+      "src": "/contacts(.*)",
+      "dest": "/build/index.html"
+    },
     { 
       "src": "/(.*)", 
       "dest": "/build/index.html"
