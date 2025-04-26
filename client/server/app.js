@@ -160,14 +160,26 @@ app.use('/images', express.static(path.join(__dirname, 'public/images'), {
   lastModified: true
 }));
 
-// Middleware for mock data connection if DB is unavailable
+// Middleware для обработки API-запросов
 app.use((req, res, next) => {
   // Add DB connection flag to request for use in controllers
   req.dbConnected = dbConnected;
   
-  // If this is an API request and database is not connected
-  if (!dbConnected && req.path.startsWith('/api/')) {
-    console.log(`Using mock data for request ${req.method} ${req.path}`);
+  // В production-режиме ЗАПРЕЩЕНО использование моковых данных
+  if (process.env.NODE_ENV === 'production' && !dbConnected && req.path.startsWith('/api/')) {
+    // В production возвращаем ошибку, если нет соединения с БД
+    console.error(`Database connection required for API requests in production: ${req.method} ${req.path}`);
+    return res.status(503).json({
+      success: false,
+      error: 'Database connection error',
+      localizedError: 'Ошибка подключения к базе данных',
+      message: 'API unavailable due to database connection issue'
+    });
+  }
+  
+  // В development можно использовать моковые данные
+  if (process.env.NODE_ENV !== 'production' && !dbConnected && req.path.startsWith('/api/')) {
+    console.log(`Using mock data for request ${req.method} ${req.path} (development only)`);
     
     const mockPaths = {
       '/api/promotions': 'promotions',
@@ -226,7 +238,7 @@ app.use((req, res, next) => {
     }
   }
   
-  // If database is connected, continue to next middleware
+  // Продолжаем к следующему middleware
   next();
 });
 
