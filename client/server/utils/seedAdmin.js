@@ -5,7 +5,8 @@ require('dotenv').config();
 
 const createAdminUser = async () => {
   try {
-    await connectDB();
+    // Не подключаемся к БД здесь, используем существующее подключение
+    // Это предотвращает создание нового соединения
     
     // Проверяем, существует ли уже пользователь с ролью admin
     const adminExists = await User.findOne({ role: 'admin' });
@@ -27,15 +28,17 @@ const createAdminUser = async () => {
     
   } catch (err) {
     console.error('Ошибка при создании администратора:', err);
-  } finally {
-    await mongoose.disconnect();
-    console.log('Соединение с базой данных закрыто');
+    // Пробрасываем ошибку, но не закрываем соединение
+    throw err;
   }
+  // Удалили finally блок с закрытием соединения
 };
 
 // Проверяем, запущен ли скрипт напрямую (не импортирован)
 if (require.main === module) {
-  createAdminUser();
+  connectDB()
+    .then(() => createAdminUser())
+    .finally(() => mongoose.disconnect());
 }
 
 module.exports = createAdminUser;

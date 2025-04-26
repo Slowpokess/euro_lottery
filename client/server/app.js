@@ -26,6 +26,9 @@ const mockData = require('./utils/mockData');
 // Initialize app
 const app = express();
 
+// Включаем доверие к прокси
+app.set('trust proxy', true);
+
 // Global variable to track database connection status
 let dbConnected = false;
 
@@ -43,6 +46,7 @@ setTimeout(() => {
       try {
         createAdminUser().catch(err => {
           console.error('Error creating admin user:', err.message);
+          // Не закрываем соединение с БД при ошибке
         });
       } catch (error) {
         console.error('Failed to initialize admin user:', error);
