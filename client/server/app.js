@@ -255,13 +255,55 @@ app.use('/api/promotion-contacts', promotionContactRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
-  // Set static folder
-  app.use(express.static(path.join(__dirname, '../build')));
+  // Проверяем наличие папки build
+  const buildPath = path.join(__dirname, '../build');
+  
+  try {
+    // Проверяем существует ли директория build
+    if (require('fs').existsSync(buildPath)) {
+      console.log('Найдена директория build, настраиваем статический хостинг');
+      
+      // Set static folder
+      app.use(express.static(buildPath));
 
-  // Handle any requests that don't match the ones above
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../', 'build', 'index.html'));
-  });
+      // Handle any requests that don't match the ones above
+      app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../', 'build', 'index.html'));
+      });
+    } else {
+      console.log('Директория build не найдена, запуск только API-сервера');
+      // Если директории build нет, возвращаем API информацию для корневого маршрута
+      app.get('/', (req, res) => {
+        res.json({
+          success: true,
+          message: "Collider Club API Server",
+          version: "1.0.0",
+          endpoints: [
+            "/api/auth",
+            "/api/events",
+            "/api/equipment",
+            "/api/news",
+            "/api/rent-requests",
+            "/api/residents",
+            "/api/spaces",
+            "/api/promotions",
+            "/api/promotion-contacts"
+          ]
+        });
+      });
+    }
+  } catch (error) {
+    console.error('Ошибка при проверке директории build:', error);
+    
+    // Безопасный фоллбэк - возвращаем API информацию
+    app.get('/', (req, res) => {
+      res.json({
+        success: true,
+        message: "Collider Club API Server",
+        version: "1.0.0"
+      });
+    });
+  }
 }
 
 // Enhanced error handling middleware

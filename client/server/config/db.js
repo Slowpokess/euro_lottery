@@ -33,10 +33,8 @@ const connectDB = async () => {
       socketTimeoutMS: 45000,
       connectTimeoutMS: 30000,
       retryWrites: true,
-      retryReads: true,
-      // Добавляем keepAlive для стабильности соединения
-      keepAlive: true,
-      keepAliveInitialDelay: 300000
+      retryReads: true
+      // Удалены неподдерживаемые опции keepAlive и keepAliveInitialDelay
     };
     
     // Установка соединения
