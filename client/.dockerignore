@@ -6,7 +6,8 @@ npm-debug.log
 .DS_Store
 .vscode
 .idea
-build
+# НЕ игнорировать build директорию - она нам нужна!
+# build
 coverage
 *.md
 !/README*.md

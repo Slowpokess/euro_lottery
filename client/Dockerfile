@@ -1,34 +1,14 @@
-# Use a specific Node version for better compatibility
-FROM node:16-alpine
+# Use a minimal nginx image to serve static files
+FROM nginx:alpine
 
-# Set working directory
-WORKDIR /app
+# Copy our built files directly to nginx
+COPY build/ /usr/share/nginx/html/
 
-# Copy package.json and .npmrc
-COPY package.json .npmrc ./
+# Copy custom nginx config
+COPY nginx.conf.railway /etc/nginx/conf.d/default.conf
 
-# Install dependencies with legacy-peer-deps flag
-RUN npm install --legacy-peer-deps
+# Expose port 80
+EXPOSE 80
 
-# Install specific versions of problematic dependencies
-RUN npm install --legacy-peer-deps ajv@8.12.0 ajv-keywords@5.1.0
-
-# Copy source code
-COPY . .
-
-# Clear node_modules and reinstall with specific package versions
-RUN rm -rf node_modules && \
-    npm install --legacy-peer-deps && \
-    npm install --legacy-peer-deps ajv@8.12.0 ajv-keywords@5.1.0
-
-# Build app with legacy-peer-deps flag
-RUN npm run build
-
-# Install serve to serve static files
-RUN npm install -g serve
-
-# Expose port
-EXPOSE 3000
-
-# Start server
-CMD ["serve", "-s", "build", "-l", "3000"]
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
