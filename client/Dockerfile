@@ -1,35 +1,26 @@
-# Build stage
-FROM node:18-alpine as build
+# Use a specific Node version for better compatibility
+FROM node:16-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package.json and .npmrc
+COPY package.json .npmrc ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies with legacy-peer-deps flag
+RUN npm install --legacy-peer-deps
 
-# Copy all files
+# Copy source code
 COPY . .
 
-# Create production build
+# Build app with legacy-peer-deps flag
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+# Install serve to serve static files
+RUN npm install -g serve
 
-# Copy build files from build stage
-COPY --from=build /app/build /usr/share/nginx/html
+# Expose port
+EXPOSE 3000
 
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Create folder for SSL certificates
-RUN mkdir -p /etc/nginx/ssl
-
-# Expose ports
-EXPOSE 80 443
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start server
+CMD ["serve", "-s", "build", "-l", "3000"]
