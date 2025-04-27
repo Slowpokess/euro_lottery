@@ -1,98 +1,42 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server/app.js", "use": "@vercel/node" },
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "build" } }
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
   ],
   "routes": [
-    { 
-      "src": "/api/(.*)", 
-      "dest": "/server/app.js",
-      "headers": {
-        "Cache-Control": "s-maxage=0"
-      }
-    },
-    { 
-      "src": "/uploads/(.*)", 
-      "dest": "/server/uploads/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
-    },
     {
       "src": "/static/(.*)",
-      "dest": "/build/static/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
+      "headers": { "cache-control": "s-maxage=31536000, immutable" },
+      "dest": "/static/$1"
     },
     {
       "src": "/favicon.ico",
-      "dest": "/build/favicon.ico"
+      "dest": "/favicon.ico"
     },
     {
       "src": "/manifest.json",
-      "dest": "/build/manifest.json"
-    },
-    {
-      "src": "/logo192.png",
-      "dest": "/build/logo192.png"
-    },
-    {
-      "src": "/logo512.png",
-      "dest": "/build/logo512.png"
+      "dest": "/manifest.json"
     },
     {
       "src": "/robots.txt",
-      "dest": "/build/robots.txt"
+      "dest": "/robots.txt"
     },
     {
-      "src": "/admin(.*)",
-      "dest": "/build/index.html" 
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
     },
     {
-      "src": "/about(.*)",
-      "dest": "/build/index.html"
-    },
-    {
-      "src": "/spaces(.*)",
-      "dest": "/build/index.html"
-    },
-    {
-      "src": "/residents(.*)",
-      "dest": "/build/index.html"
-    },
-    {
-      "src": "/events(.*)",
-      "dest": "/build/index.html"
-    },
-    {
-      "src": "/rent(.*)",
-      "dest": "/build/index.html"
-    },
-    {
-      "src": "/promotion(.*)",
-      "dest": "/build/index.html"
-    },
-    {
-      "src": "/contacts(.*)",
-      "dest": "/build/index.html"
-    },
-    { 
-      "src": "/(.*)", 
-      "dest": "/build/index.html"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "env": {
-    "NODE_ENV": "production",
-    "PORT": "5000",
-    "MONGO_URI": "@mongo_uri",
-    "JWT_SECRET": "@jwt_secret",
-    "JWT_EXPIRE": "30d",
-    "CORS_ORIGIN": "https://collider-cluster.vercel.app",
-    "MAX_FILE_UPLOAD": "5242880",
-    "FILE_UPLOAD_PATH": "/tmp/uploads",
-    "RATE_LIMIT_WINDOW": "15",
-    "RATE_LIMIT_MAX": "100"
+    "REACT_APP_API_URL": "https://collider-back-production.up.railway.app/api"
   }
 }
