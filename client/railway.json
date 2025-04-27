@@ -2,13 +2,21 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "npm install --legacy-peer-deps && npm run build"
+    "nixpacksVersion": "1.17.0",
+    "nixpacksPlan": {
+      "phases": {
+        "install": {
+          "cmds": ["npm install --legacy-peer-deps"]
+        },
+        "build": {
+          "cmds": ["npm run build"]
+        }
+      }
+    }
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "npx serve -s build -l $PORT",
-    "healthcheckPath": "/",
-    "healthcheckTimeout": 300,
+    "startCommand": "npx serve -s build",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
