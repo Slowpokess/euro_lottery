@@ -63,7 +63,10 @@ const api = axios.create({
     'Content-Type': 'application/json',
     'Accept': 'application/json'
   },
-  timeout: parseInt(API_TIMEOUT, 10)
+  timeout: parseInt(API_TIMEOUT, 10),
+  // Увеличиваем время повторного запроса и количество повторных попыток
+  retryDelay: 1000,
+  retry: 3
 });
 
 // Создаем простой кеш для запросов
@@ -161,18 +164,43 @@ api.interceptors.response.use(
     if (response.config.method === 'get') {
       const cacheKey = createCacheKey(response.config);
       requestCache.set(cacheKey, response);
-      // console.log(`Cached response for ${response.config.url}`);
     }
     return response;
   },
   async (error) => {
-    // Проверка, нужно ли использовать моковые данные
-    const url = error.config?.url;
-    const method = error.config?.method;
+    const { config } = error;
+    // Если нет конфигурации, значит что-то пошло не так на самом раннем этапе, и повторять запрос бессмысленно
+    if (!config) return Promise.reject(error);
+    
+    // Проверяем количество повторных попыток
+    config.retry = config.retry || 0;
+    config.maxRetries = error.config?.maxRetries || 3;
+    
+    // Если у нас есть еще попытки для повтора запроса при 5xx ошибках сервера или сетевых ошибках
+    if (config.retry < config.maxRetries && 
+        (error.message === 'Network Error' || 
+         (error.response && error.response.status >= 500))) {
+      
+      // Увеличиваем счетчик попыток
+      config.retry += 1;
+      
+      // Используем экспоненциальное отступление
+      const delay = config.retryDelay || 1000 * Math.pow(2, config.retry - 1);
+      
+      console.warn(`Повторная попытка запроса ${config.url} (${config.retry}/${config.maxRetries}) через ${delay}ms...`);
+      
+      // Ждем некоторое время перед повторным запросом
+      return new Promise(resolve => {
+        setTimeout(() => resolve(api(config)), delay);
+      });
+    }
     
     // Если это сетевая ошибка, нужно проверить кеш перед использованием моковых данных
+    const url = config?.url;
+    const method = config?.method;
+    
     if (error.message === 'Network Error' && method === 'get') {
-      const cacheKey = createCacheKey(error.config);
+      const cacheKey = createCacheKey(config);
       
       // Проверяем, есть ли кешированный ответ
       if (requestCache.has(cacheKey)) {
