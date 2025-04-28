@@ -11,9 +11,26 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "headers": {
+        "cache-control": "no-cache, no-store, must-revalidate"
+      },
+      "dest": "https://collider-back-production.up.railway.app/api/$1"
+    },
+    {
       "src": "/static/(.*)",
       "headers": { "cache-control": "s-maxage=31536000, immutable" },
       "dest": "/static/$1"
+    },
+    {
+      "src": "/images/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000" },
+      "dest": "/images/$1"
+    },
+    {
+      "src": "/icons/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000" },
+      "dest": "/icons/$1"
     },
     {
       "src": "/favicon.ico",
@@ -32,11 +49,29 @@
       "dest": "/sitemap.xml"
     },
     {
+      "src": "/admin(.*)",
+      "headers": { "cache-control": "s-maxage=0" },
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
   ],
   "env": {
-    "REACT_APP_API_URL": "https://collider-back-production.up.railway.app/api"
-  }
+    "REACT_APP_API_URL": "/api",
+    "REACT_APP_USE_MOCK_DATA": "false",
+    "GENERATE_SOURCEMAP": "false"
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Credentials", "value": "true" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
+        { "key": "Access-Control-Allow-Headers", "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization" }
+      ]
+    }
+  ]
 }

@@ -68,9 +68,9 @@ if (process.env.NODE_ENV === 'production') {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https://collider-club.com", "https://*.collider-club.com"],
+      imgSrc: ["'self'", "data:", "https://*"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      connectSrc: ["'self'", "https://collider-club.com", "https://*.collider-club.com"],
+      connectSrc: ["'self'", "https://*", "http://*"], // Разрешить все соединения для прокси
       frameSrc: ["'none'"],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: []
@@ -100,20 +100,47 @@ app.use(mongoSanitize());
 // CORS configuration
 app.use(cors({
   origin: (origin, callback) => {
-    // Разрешаем запросы без origin (например, мобильные приложения)
+    // В режиме разработки разрешаем все запросы
+    if (process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
+    }
+    
+    // Разрешаем запросы без origin (например, мобильные приложения, серверные запросы от Vercel)
     // и запросы с разрешенного origin из переменной окружения
     const allowedOrigins = process.env.CORS_ORIGIN 
       ? process.env.CORS_ORIGIN.split(',') 
-      : ['http://localhost:3000'];
+      : [
+          'https://collidercluster-1yoi3ofe8-slowpokess-projects.vercel.app',
+          'https://collidercluster.vercel.app',
+          'https://collider-club.vercel.app'
+        ];
     
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Логируем для отладки
+    console.log(`CORS запрос с origin: ${origin || 'нет origin (вероятно прокси с Vercel)'}`);
+    console.log(`Разрешенные origins: ${JSON.stringify(allowedOrigins)}`);
+    
+    // Разрешаем все запросы - это необходимо для работы через Vercel proxy
+    return callback(null, true);
+
+    // Эта часть кода закомментирована, так как мы используем открытую CORS политику для Vercel proxy
+    /*
+    // Проверяем, содержит ли origin поддомен Vercel
+    const isVercelDomain = origin && (
+      origin.includes('.vercel.app') || 
+      origin.includes('collider-club.com')
+    );
+    
+    if (!origin || allowedOrigins.includes(origin) || isVercelDomain) {
       callback(null, true);
     } else {
+      console.error(`CORS ошибка: ${origin} не разрешен`);
       callback(new Error('Не разрешено CORS политикой'));
     }
+    */
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With', 'Origin'],
+  exposedHeaders: ['Content-Length', 'Content-Type', 'Access-Control-Allow-Origin'],
   credentials: true,
   maxAge: 86400 // кэширование предварительных запросов на 24 часа
 }));
