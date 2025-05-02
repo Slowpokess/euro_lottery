@@ -1,0 +1,148 @@
+{{ define "email.subject" }}
+[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }} - {{ if .CommonLabels.service }}{{ .CommonLabels.service }}{{ else }}Euro Lottery{{ end }}
+{{ end }}
+
+{{ define "email.html" }}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Euro Lottery Alert</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .status-firing {
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+    .status-resolved {
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+    }
+    .alert {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-left: 4px solid #999;
+    }
+    .alert-critical {
+      border-left-color: #dc3545;
+    }
+    .alert-warning {
+      border-left-color: #ffc107;
+    }
+    .alert-info {
+      border-left-color: #17a2b8;
+    }
+    h1 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 0;
+    }
+    .values {
+      margin-left: 20px;
+    }
+    .label {
+      font-weight: bold;
+    }
+    .timestamp {
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container status-{{ .Status }}">
+    <h1>
+      {{ if eq .Status "firing" }}🔥 Firing Alerts ({{ .Alerts.Firing | len }}){{ end }}
+      {{ if eq .Status "resolved" }}✅ Resolved Alerts ({{ .Alerts.Resolved | len }}){{ end }}
+    </h1>
+    
+    {{ if .GroupLabels.SortedPairs }}
+    <h2>Group Labels</h2>
+    <div class="values">
+      {{ range .GroupLabels.SortedPairs }}
+      <div><span class="label">{{ .Name }}:</span> {{ .Value }}</div>
+      {{ end }}
+    </div>
+    {{ end }}
+    
+    {{ if .CommonLabels.SortedPairs }}
+    <h2>Common Labels</h2>
+    <div class="values">
+      {{ range .CommonLabels.SortedPairs }}
+      <div><span class="label">{{ .Name }}:</span> {{ .Value }}</div>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+
+  {{ if .Alerts.Firing }}
+  <h2>Firing Alerts</h2>
+  {{ range .Alerts.Firing }}
+  <div class="alert alert-{{ .Labels.severity }}">
+    <h3>{{ .Annotations.summary }}</h3>
+    <p>{{ .Annotations.description }}</p>
+    
+    {{ if .Labels.SortedPairs }}
+    <div class="values">
+      <h4>Labels</h4>
+      {{ range .Labels.SortedPairs }}
+      <div><span class="label">{{ .Name }}:</span> {{ .Value }}</div>
+      {{ end }}
+    </div>
+    {{ end }}
+    
+    <div class="timestamp">
+      Started: {{ .StartsAt }}
+    </div>
+  </div>
+  {{ end }}
+  {{ end }}
+
+  {{ if .Alerts.Resolved }}
+  <h2>Resolved Alerts</h2>
+  {{ range .Alerts.Resolved }}
+  <div class="alert">
+    <h3>{{ .Annotations.summary }}</h3>
+    <p>{{ .Annotations.description }}</p>
+    
+    {{ if .Labels.SortedPairs }}
+    <div class="values">
+      <h4>Labels</h4>
+      {{ range .Labels.SortedPairs }}
+      <div><span class="label">{{ .Name }}:</span> {{ .Value }}</div>
+      {{ end }}
+    </div>
+    {{ end }}
+    
+    <div class="timestamp">
+      Started: {{ .StartsAt }}<br>
+      Resolved: {{ .EndsAt }}
+    </div>
+  </div>
+  {{ end }}
+  {{ end }}
+
+  <div class="footer">
+    <p>
+      Go to <a href="https://monitoring.eurolottery.com">Grafana Dashboard</a> for more information.
+    </p>
+  </div>
+</body>
+</html>
+{{ end }}

@@ -1,0 +1,630 @@
+openapi: 3.0.3
+info:
+  title: Euro Lottery API
+  description: API documentation for the Euro Lottery application
+  version: 1.0.0
+  contact:
+    email: admin@eurolottery.com
+  license:
+    name: Proprietary
+servers:
+  - url: https://api.eurolottery.com/api
+    description: Production server
+  - url: http://localhost:8000/api
+    description: Local development server
+paths:
+  /auth/register/:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: Create a new user account
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - username
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input
+  /auth/login/:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: Authenticate a user and get tokens
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                  refresh:
+                    type: string
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Invalid credentials
+  /auth/verify-email/{token}/:
+    get:
+      tags:
+        - Authentication
+      summary: Verify email address
+      description: Verify the user's email address using a token
+      operationId: verifyEmail
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email verified successfully
+        '400':
+          description: Invalid or expired token
+  /lottery/games/:
+    get:
+      tags:
+        - Lottery
+      summary: Get all lottery games
+      description: Retrieve a list of all active lottery games
+      operationId: getLotteryGames
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LotteryGame'
+  /lottery/games/{id}/:
+    get:
+      tags:
+        - Lottery
+      summary: Get lottery game details
+      description: Retrieve detailed information about a specific lottery game
+      operationId: getLotteryGameDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LotteryGameDetails'
+        '404':
+          description: Lottery game not found
+  /lottery/draws/:
+    get:
+      tags:
+        - Lottery
+      summary: Get all draws
+      description: Retrieve a list of all lottery draws
+      operationId: getAllDraws
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [scheduled, in_progress, completed, canceled]
+        - name: lottery_id
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Draw'
+  /lottery/draws/upcoming/:
+    get:
+      tags:
+        - Lottery
+      summary: Get upcoming draws
+      description: Retrieve a list of upcoming lottery draws
+      operationId: getUpcomingDraws
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Draw'
+  /lottery/draws/{id}/:
+    get:
+      tags:
+        - Lottery
+      summary: Get draw details
+      description: Retrieve detailed information about a specific draw
+      operationId: getDrawDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DrawDetails'
+        '404':
+          description: Draw not found
+  /lottery/tickets/purchase/:
+    post:
+      tags:
+        - Tickets
+      summary: Purchase lottery tickets
+      description: Buy one or more lottery tickets for a specific draw
+      operationId: purchaseTickets
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - draw_id
+                - tickets
+              properties:
+                draw_id:
+                  type: integer
+                tickets:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - main_numbers
+                      - extra_numbers
+                    properties:
+                      main_numbers:
+                        type: array
+                        items:
+                          type: integer
+                      extra_numbers:
+                        type: array
+                        items:
+                          type: integer
+      responses:
+        '201':
+          description: Tickets purchased successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tickets:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ticket'
+                  transaction:
+                    $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Invalid input
+        '402':
+          description: Insufficient funds
+  /user/tickets/:
+    get:
+      tags:
+        - User
+      summary: Get user tickets
+      description: Retrieve a list of all tickets purchased by the user
+      operationId: getUserTickets
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [active, used, winning, expired]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+  /user/tickets/{id}/:
+    get:
+      tags:
+        - User
+      summary: Get ticket details
+      description: Retrieve detailed information about a specific ticket
+      operationId: getTicketDetails
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketDetails'
+        '404':
+          description: Ticket not found
+  /user/wallet/:
+    get:
+      tags:
+        - User
+      summary: Get user wallet
+      description: Retrieve the user's wallet information including balance and transactions
+      operationId: getUserWallet
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wallet'
+  /payments/deposit/:
+    post:
+      tags:
+        - Payments
+      summary: Deposit funds
+      description: Add funds to the user's wallet
+      operationId: depositFunds
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - payment_method
+              properties:
+                amount:
+                  type: number
+                  format: decimal
+                payment_method:
+                  type: string
+                  enum: [stripe, paypal]
+      responses:
+        '200':
+          description: Deposit successful or payment intent created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  client_secret:
+                    type: string
+                  transaction_id:
+                    type: string
+        '400':
+          description: Invalid input
+  /payments/withdraw/:
+    post:
+      tags:
+        - Payments
+      summary: Withdraw funds
+      description: Withdraw funds from the user's wallet
+      operationId: withdrawFunds
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - amount
+                - payment_method
+              properties:
+                amount:
+                  type: number
+                  format: decimal
+                payment_method:
+                  type: string
+                  enum: [bank_transfer]
+                bank_info:
+                  type: object
+                  properties:
+                    account_number:
+                      type: string
+                    bank_name:
+                      type: string
+                    account_name:
+                      type: string
+      responses:
+        '200':
+          description: Withdrawal request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Invalid input
+        '402':
+          description: Insufficient funds
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        balance:
+          type: number
+          format: decimal
+        is_verified:
+          type: boolean
+        date_joined:
+          type: string
+          format: date-time
+    LotteryGame:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        main_numbers_count:
+          type: integer
+        main_numbers_range:
+          type: integer
+        extra_numbers_count:
+          type: integer
+        extra_numbers_range:
+          type: integer
+        ticket_price:
+          type: number
+          format: decimal
+        draw_days:
+          type: string
+        is_active:
+          type: boolean
+        next_draw:
+          $ref: '#/components/schemas/Draw'
+    LotteryGameDetails:
+      allOf:
+        - $ref: '#/components/schemas/LotteryGame'
+        - type: object
+          properties:
+            prize_categories:
+              type: array
+              items:
+                $ref: '#/components/schemas/PrizeCategory'
+            upcoming_draws:
+              type: array
+              items:
+                $ref: '#/components/schemas/Draw'
+            recent_results:
+              type: array
+              items:
+                $ref: '#/components/schemas/DrawResult'
+    Draw:
+      type: object
+      properties:
+        id:
+          type: integer
+        lottery:
+          $ref: '#/components/schemas/LotteryGame'
+        draw_number:
+          type: integer
+        draw_date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [scheduled, in_progress, completed, cancelled]
+        jackpot_amount:
+          type: number
+          format: decimal
+        ticket_count:
+          type: integer
+    DrawDetails:
+      allOf:
+        - $ref: '#/components/schemas/Draw'
+        - type: object
+          properties:
+            winning_numbers:
+              type: string
+            prize_pool:
+              type: number
+              format: decimal
+            verification_hash:
+              type: string
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/DrawResult'
+    DrawResult:
+      type: object
+      properties:
+        id:
+          type: integer
+        draw:
+          $ref: '#/components/schemas/Draw'
+        prize_category:
+          $ref: '#/components/schemas/PrizeCategory'
+        winners_count:
+          type: integer
+        prize_amount:
+          type: number
+          format: decimal
+    PrizeCategory:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        main_numbers:
+          type: integer
+        extra_numbers:
+          type: integer
+        odds:
+          type: string
+        allocation_percentage:
+          type: number
+          format: decimal
+        fixed_prize_amount:
+          type: number
+          format: decimal
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          type: integer
+        lottery:
+          $ref: '#/components/schemas/LotteryGame'
+        draw:
+          $ref: '#/components/schemas/Draw'
+        selected_numbers:
+          type: string
+        price:
+          type: number
+          format: decimal
+        purchase_date:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [active, used, winning, expired]
+    TicketDetails:
+      allOf:
+        - $ref: '#/components/schemas/Ticket'
+        - type: object
+          properties:
+            winning_info:
+              type: object
+              nullable: true
+              properties:
+                prize_category:
+                  $ref: '#/components/schemas/PrizeCategory'
+                main_numbers_matched:
+                  type: integer
+                extra_numbers_matched:
+                  type: integer
+                prize_amount:
+                  type: number
+                  format: decimal
+                is_claimed:
+                  type: boolean
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          type: integer
+        amount:
+          type: number
+          format: decimal
+        transaction_type:
+          type: string
+          enum: [deposit, withdrawal, ticket_purchase, winning_payout]
+        status:
+          type: string
+          enum: [pending, completed, failed, cancelled]
+        reference:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Wallet:
+      type: object
+      properties:
+        balance:
+          type: number
+          format: decimal
+        pending_balance:
+          type: number
+          format: decimal
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

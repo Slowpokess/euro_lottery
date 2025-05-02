@@ -1,0 +1,32 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>Congratulations! You've Won!</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<div style="background-color: #e8f5e9; padding: 20px; border-radius: 5px; margin: 20px 0; text-align: center;">
+    <h3 style="color: #2e7d32; margin-top: 0; font-size: 24px;">🎉 YOU WON {{ notification.data.amount }} 🎉</h3>
+    <p>Your ticket #{{ notification.data.ticket_number }} for {{ notification.data.lottery_name }} draw #{{ notification.data.draw_number }} was a winner!</p>
+    <p>Prize Category: <strong>{{ notification.data.prize_category }}</strong></p>
+</div>
+
+<p>Your winnings have been credited to your Euro Lottery account balance. You can now:</p>
+
+<ul>
+    <li>Use your winnings to buy more tickets</li>
+    <li>Withdraw your winnings to your preferred payment method</li>
+    <li>Keep them in your account for future use</li>
+</ul>
+
+<p style="text-align: center;">
+    <a href="{{ site_url }}/account/wallet" class="button" style="background-color: #2e7d32;">View My Wallet</a>
+    <a href="{{ site_url }}/tickets/my-winning-tickets" class="button" style="background-color: #4a55a2; margin-left: 10px;">View My Winning Tickets</a>
+</p>
+
+<p>Thank you for playing Euro Lottery. We hope to see you win again soon!</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+
+<p><small>Transaction ID: {{ notification.data.transaction_id }}</small></p>
+{% endblock %}

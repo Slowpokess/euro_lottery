@@ -1,0 +1,163 @@
+/* Стили для лотерейного барабана */
+.lottery-drum-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.lottery-drum {
+  position: relative;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
+.lottery-drum.drawing {
+  animation: drumRotate 2s infinite linear;
+}
+
+.lottery-drum.idle {
+  animation: gentleSway 10s infinite ease-in-out;
+}
+
+.lottery-drum.complete {
+  animation: none;
+}
+
+.lottery-ball {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 1;
+}
+
+.lottery-ball.drawn {
+  z-index: 2;
+  animation: ballExit 0.5s forwards;
+}
+
+.lottery-ball.selected {
+  z-index: 3;
+}
+
+.drawn-ball {
+  position: relative;
+}
+
+.drawn-ball::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  animation: pulseRing 2s infinite;
+  z-index: -1;
+}
+
+/* Animation for drum rotation */
+@keyframes drumRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation for gentle sway when idle */
+@keyframes gentleSway {
+  0%, 100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+
+/* Animation for balls exiting the drum */
+@keyframes ballExit {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+}
+
+/* Animation for popping in drawn balls */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Pulsing animation for drawn balls */
+@keyframes pulseRing {
+  0% {
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0);
+    transform: scale(1.2);
+  }
+  100% {
+    border-color: rgba(255, 255, 255, 0);
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Responsive styling for different sizes */
+.lottery-drum.small {
+  max-width: 250px;
+  max-height: 250px;
+}
+
+.lottery-drum.medium {
+  max-width: 350px;
+  max-height: 350px;
+}
+
+.lottery-drum.large {
+  max-width: 450px;
+  max-height: 450px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .lottery-drum.medium,
+  .lottery-drum.large {
+    width: 280px !important;
+    height: 280px !important;
+  }
+  
+  .drawn-balls-container {
+    flex-wrap: wrap;
+  }
+}
+
+/* Media query for extra small screens */
+@media (max-width: 480px) {
+  .lottery-drum.small,
+  .lottery-drum.medium,
+  .lottery-drum.large {
+    width: 220px !important;
+    height: 220px !important;
+  }
+}

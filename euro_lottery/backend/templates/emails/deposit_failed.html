@@ -1,0 +1,39 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>Deposit Failed</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<p>We regret to inform you that your recent deposit attempt to your Euro Lottery account was unsuccessful.</p>
+
+<div style="background-color: #ffebee; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p><strong>Transaction Details:</strong></p>
+    <ul>
+        <li>Amount: {{ notification.data.amount }}</li>
+        <li>Date: {{ notification.created_at|date:"F j, Y, H:i" }}</li>
+        <li>Payment Method: {{ notification.data.provider }}</li>
+        <li>Transaction ID: {{ notification.data.transaction_id }}</li>
+        <li>Status: <strong>Failed</strong></li>
+    </ul>
+</div>
+
+<p>Your payment was not processed, and no funds have been deducted from your account. This could be due to one of the following reasons:</p>
+
+<ul>
+    <li>Insufficient funds in your account</li>
+    <li>Temporary technical issue with the payment processor</li>
+    <li>Card verification failed</li>
+    <li>The transaction was flagged by security systems</li>
+</ul>
+
+<p>You can try making the deposit again or use a different payment method:</p>
+
+<p style="text-align: center;">
+    <a href="{{ site_url }}/account/deposit" class="button">Try Again</a>
+</p>
+
+<p>If you continue to experience issues or need assistance, please contact our customer support team.</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+{% endblock %}

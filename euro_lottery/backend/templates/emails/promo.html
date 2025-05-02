@@ -1,0 +1,41 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>{{ notification.title }}</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<div style="background-color: #fff3e0; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    {{ notification.message|safe }}
+</div>
+
+{% if notification.data.promotion_code %}
+<div style="text-align: center; margin: 25px 0;">
+    <p>Use your special promo code:</p>
+    <div style="background-color: #4a55a2; color: white; padding: 10px; font-size: 18px; letter-spacing: 2px; width: 200px; margin: 0 auto; border-radius: 5px;">
+        {{ notification.data.promotion_code }}
+    </div>
+</div>
+{% endif %}
+
+{% if notification.data.expiry_date %}
+<p><strong>Offer expires:</strong> {{ notification.data.expiry_date|date:"F j, Y" }}</p>
+{% endif %}
+
+{% if notification.data.cta_url %}
+<p style="text-align: center;">
+    <a href="{{ notification.data.cta_url }}" class="button" style="background-color: #ff9800;">{{ notification.data.cta_text|default:"Get This Offer" }}</a>
+</p>
+{% endif %}
+
+<p>Thank you for being a valued member of Euro Lottery!</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+
+{% if notification.data.terms_conditions %}
+<div style="font-size: 11px; color: #666; margin-top: 30px;">
+    <p><strong>Terms & Conditions:</strong></p>
+    <p>{{ notification.data.terms_conditions|safe }}</p>
+</div>
+{% endif %}
+{% endblock %}

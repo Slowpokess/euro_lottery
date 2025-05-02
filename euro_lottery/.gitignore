@@ -1,0 +1,87 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+venv/
+.coverage
+htmlcov/
+coverage/
+
+# Django
+*.log
+db.sqlite3
+media
+
+# React/Node
+node_modules/
+/frontend/build
+/frontend/.env
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Environment variables
+.env
+.env.example
+.env.prod
+.env.dev
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Logging
+logs/
+
+# Docker
+.docker/
+
+# Production
+backups/
+cert/
+!nginx/ssl/
+
+# SSL certificates
+*.pem
+*.crt
+*.key
+*.csr

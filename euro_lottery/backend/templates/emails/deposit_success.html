@@ -1,0 +1,31 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>Deposit Successful</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<p>We're pleased to confirm that your deposit has been successfully processed and added to your Euro Lottery account.</p>
+
+<div style="background-color: #e8f5e9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p><strong>Transaction Details:</strong></p>
+    <ul>
+        <li>Amount: <span class="highlight">{{ notification.data.amount }}</span></li>
+        <li>Date: {{ notification.created_at|date:"F j, Y, H:i" }}</li>
+        <li>Payment Method: {{ notification.data.provider }}</li>
+        <li>Transaction ID: {{ notification.data.transaction_id }}</li>
+        <li>Status: <strong>Completed</strong></li>
+    </ul>
+</div>
+
+<p>Your updated account balance is now available in your wallet. You can use these funds to purchase lottery tickets or for other transactions on our platform.</p>
+
+<p style="text-align: center;">
+    <a href="{{ site_url }}/account/wallet" class="button">View My Wallet</a>
+    <a href="{{ site_url }}/tickets" class="button" style="margin-left: 10px;">Buy Tickets</a>
+</p>
+
+<p>Thank you for choosing Euro Lottery. If you have any questions about this transaction, please contact our customer support.</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+{% endblock %}

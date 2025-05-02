@@ -1,0 +1,245 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+      - POSTGRES_DB=${DB_NAME:-eurolottery}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_password} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_password}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - static_files:/app/staticfiles
+      - media_files:/app/media
+      # Только для разработки раскомментируйте строку ниже:
+      # - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME:-eurolottery}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis_password}
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,eurolottery.com}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost,http://127.0.0.1}
+      - SITE_URL=${SITE_URL:-https://eurolottery.com}
+    restart: unless-stopped
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+
+  celery:
+    build: ./backend
+    command: celery -A lottery_core worker -l INFO --concurrency=${CELERY_CONCURRENCY:-2}
+    volumes:
+      - media_files:/app/media
+    depends_on:
+      - backend
+      - redis
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME:-eurolottery}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis_password}
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+    restart: unless-stopped
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.30'
+          memory: 256M
+
+  celery-beat:
+    build: ./backend
+    command: celery -A lottery_core beat -l INFO
+    depends_on:
+      - backend
+      - redis
+    environment:
+      - DEBUG=${DEBUG:-False}
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME:-eurolottery}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis_password}
+      - CELERY_BROKER_URL=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379/0
+    restart: unless-stopped
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=${API_URL:-https://eurolottery.com/api}
+        - REACT_APP_ENV=${ENVIRONMENT:-production}
+    restart: unless-stopped
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - static_files:/var/www/static
+      - media_files:/var/www/media
+      - certbot_data:/var/www/certbot
+      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_www:/var/www/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    networks:
+      - app_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - letsencrypt_certs:/etc/letsencrypt
+      - letsencrypt_www:/var/www/letsencrypt
+      - certbot_data:/var/www/certbot
+    depends_on:
+      - nginx
+    # Интервальный запуск для обновления сертификатов
+    # В продакшене используйте --non-interactive для автоматического запуска
+    # Для первоначальной настройки раскомментируйте строку ниже:
+    # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/letsencrypt; sleep 12h & wait $${!}; done;'"
+    # При первоначальной настройке сертификатов используйте команду ниже:
+    # command: certbot certonly --webroot --webroot-path=/var/www/letsencrypt --email admin@eurolottery.com --agree-tos --no-eff-email -d eurolottery.com -d www.eurolottery.com
+
+  # Контейнер для резервного копирования
+  backup:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:ro
+      - ./backups:/backups
+      - media_files:/media_backup:ro
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+      - POSTGRES_DB=${DB_NAME:-eurolottery}
+      - PGPASSWORD=${DB_PASSWORD:-postgres}
+    networks:
+      - app_network
+    # Выполняем скрипт резервного копирования каждый день в 03:00
+    # Можно изменить на другое время или расписание
+    # command: sh -c "while true; do sleep 86400; pg_dump -h db -U ${DB_USER:-postgres} ${DB_NAME:-eurolottery} > /backups/db_backup_`date +\%Y\%m\%d\%H\%M\%S`.sql && tar -czf /backups/media_backup_`date +\%Y\%m\%d\%H\%M\%S`.tar.gz -C /media_backup .; echo 'Backup completed'; done"
+    entrypoint: "/bin/sh"
+    command: "-c 'mkdir -p /backups && echo \"0 3 * * * pg_dump -h db -U ${DB_USER:-postgres} ${DB_NAME:-eurolottery} > /backups/db_backup_`date +\\%Y\\%m\\%d`.sql && tar -czf /backups/media_backup_`date +\\%Y\\%m\\%d`.tar.gz -C /media_backup .\" | crontab - && crond -f'"
+    restart: unless-stopped
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  static_files:
+  media_files:
+  certbot_data:
+  letsencrypt_certs:
+  letsencrypt_www:
+  backups:

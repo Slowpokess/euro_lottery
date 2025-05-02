@@ -1,0 +1,39 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>Withdrawal Successfully Processed</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<p>We're pleased to confirm that your withdrawal request has been successfully processed and the funds have been sent to your designated payment method.</p>
+
+<div style="background-color: #e8f5e9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p><strong>Withdrawal Details:</strong></p>
+    <ul>
+        <li>Amount: <span class="highlight">{{ notification.data.amount }}</span></li>
+        <li>Date: {{ notification.created_at|date:"F j, Y, H:i" }}</li>
+        <li>Payment Method: {{ notification.data.payment_method }}</li>
+        <li>Transaction ID: {{ notification.data.transaction_id }}</li>
+        <li>Status: <strong>Completed</strong></li>
+    </ul>
+</div>
+
+<p>Depending on your payment method, it may take some time for the funds to appear in your account:</p>
+
+<ul>
+    <li><strong>Bank Transfer:</strong> 1-5 business days</li>
+    <li><strong>Card Refund:</strong> 2-10 business days</li>
+    <li><strong>E-Wallets:</strong> Usually within 24 hours</li>
+    <li><strong>Cryptocurrency:</strong> Typically within a few hours, depending on network confirmation times</li>
+</ul>
+
+<p>You can view your transaction history and current balance in your account wallet.</p>
+
+<p style="text-align: center;">
+    <a href="{{ site_url }}/account/wallet" class="button">View My Wallet</a>
+</p>
+
+<p>Thank you for choosing Euro Lottery. If you have any questions about this transaction, please contact our customer support.</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+{% endblock %}

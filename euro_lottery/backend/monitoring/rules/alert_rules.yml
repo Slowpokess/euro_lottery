@@ -1,0 +1,102 @@
+groups:
+  - name: euro_lottery_alerts
+    rules:
+      # High CPU Usage
+      - alert: HighCPUUsage
+        expr: 100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage has exceeded 80% for more than 5 minutes (current value: {{ $value }}%)"
+
+      # High Memory Usage
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage has exceeded 85% for more than 5 minutes (current value: {{ $value }}%)"
+
+      # Disk Space Running Out
+      - alert: LowDiskSpace
+        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} * 100 < 15
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Disk space is below 15% (current value: {{ $value }}%)"
+
+      # Backend Availability
+      - alert: BackendDown
+        expr: up{service="django-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backend service is down"
+          description: "Backend service has been down for more than 1 minute"
+
+      # Celery Worker Availability 
+      - alert: CeleryWorkerDown
+        expr: up{service="celery"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Celery worker is down"
+          description: "Celery worker has been down for more than 1 minute"
+
+      # Database Availability
+      - alert: DatabaseDown
+        expr: up{service="database"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database service is down"
+          description: "PostgreSQL service has been down for more than 1 minute"
+
+      # Redis Availability
+      - alert: RedisDown
+        expr: up{service="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis service is down"
+          description: "Redis service has been down for more than 1 minute"
+
+      # High Error Rate
+      - alert: HighErrorRate
+        expr: rate(django_http_responses_total_by_status_total{status=~"5.."}[5m]) / rate(django_http_responses_total_by_status_total[5m]) * 100 > 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate"
+          description: "Error rate is above 10% for the last 5 minutes (current value: {{ $value }}%)"
+
+      # Slow Response Time
+      - alert: SlowResponseTime
+        expr: django_http_requests_latency_seconds_sum / django_http_requests_latency_seconds_count > 1.0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow response time"
+          description: "Average response time is above 1 second (current value: {{ $value }}s)"
+
+      # Failed Tasks
+      - alert: HighTaskFailureRate
+        expr: rate(celery_task_exceptions{state="FAILURE"}[5m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Celery task failure rate"
+          description: "Failed tasks detected in the last 5 minutes"

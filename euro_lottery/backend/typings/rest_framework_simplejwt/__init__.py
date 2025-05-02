@@ -1,0 +1,1 @@
+# Stub file for rest_framework_simplejwt

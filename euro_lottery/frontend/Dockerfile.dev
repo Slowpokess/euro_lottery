@@ -1,0 +1,23 @@
+FROM node:16-alpine
+
+# Установка зависимостей для разработки
+RUN apk add --no-cache python3 make g++
+
+# Рабочая директория
+WORKDIR /app
+
+# Копирование файлов package.json и package-lock.json
+COPY package*.json ./
+
+# Установка зависимостей
+RUN npm ci
+
+# Для горячей перезагрузки в режиме разработки
+ENV CHOKIDAR_USEPOLLING=true
+ENV WDS_SOCKET_PORT=0
+
+# Порт для сервера разработки
+EXPOSE 3000
+
+# Запускаем сервер разработки
+CMD ["npm", "start"]

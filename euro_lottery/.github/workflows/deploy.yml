@@ -1,0 +1,56 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["Backend CI", "Frontend CI"]
+    branches: [main]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download backend artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: backend-artifact
+        path: .
+
+    - name: Download frontend artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: frontend-build
+        path: frontend/build
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: Add host key
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        
+    - name: Deploy Backend
+      run: |
+        tar -xzf backend-artifact.tar.gz -C backend/
+        rsync -avz --delete ./backend/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:${{ secrets.BACKEND_PATH }}
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} 'cd ${{ secrets.BACKEND_PATH }} && ./deploy.sh'
+        
+    - name: Deploy Frontend
+      run: |
+        rsync -avz --delete ./frontend/build/ ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:${{ secrets.FRONTEND_PATH }}
+        
+    - name: Restart services
+      run: |
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} 'sudo systemctl restart gunicorn'
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} 'sudo systemctl restart celery'
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} 'sudo systemctl restart celerybeat'
+        ssh ${{ secrets.SSH_USER }}@${{ secrets.HOST }} 'sudo systemctl restart nginx'

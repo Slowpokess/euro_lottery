@@ -1,0 +1,30 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>Your Euro Lottery Draw Is Coming Up Soon!</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<p>We're excited to remind you that the {{ notification.data.lottery_name }} draw #{{ notification.data.draw_number }} is happening soon!</p>
+
+<div style="background-color: #f0f7ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p><strong>Draw Details:</strong></p>
+    <ul>
+        <li>Lottery: {{ notification.data.lottery_name }}</li>
+        <li>Draw Number: #{{ notification.data.draw_number }}</li>
+        <li>Draw Time: {{ notification.data.draw_date|date:"F j, Y, H:i" }}</li>
+        <li>Current Jackpot: <span class="highlight">{{ notification.data.jackpot_amount }}</span></li>
+        <li>Your Tickets: {{ notification.data.ticket_count }}</li>
+    </ul>
+</div>
+
+<p>Check your tickets and make sure you're ready for the upcoming draw. Remember, you can purchase additional tickets up until {{ notification.data.draw_buffer_time|default:"60" }} minutes before the draw starts.</p>
+
+<p style="text-align: center;">
+    <a href="{{ site_url }}/tickets/my-tickets" class="button">View My Tickets</a>
+</p>
+
+<p>We wish you the best of luck with the upcoming draw!</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+{% endblock %}

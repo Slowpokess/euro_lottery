@@ -1,0 +1,47 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>Withdrawal Request Failed</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<p>We regret to inform you that your recent withdrawal request from your Euro Lottery account could not be processed.</p>
+
+<div style="background-color: #ffebee; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p><strong>Withdrawal Details:</strong></p>
+    <ul>
+        <li>Amount: {{ notification.data.amount }}</li>
+        <li>Date Requested: {{ notification.created_at|date:"F j, Y, H:i" }}</li>
+        <li>Payment Method: {{ notification.data.payment_method }}</li>
+        <li>Status: <strong>Failed</strong></li>
+        {% if notification.data.rejection_reason %}
+        <li>Reason: {{ notification.data.rejection_reason }}</li>
+        {% endif %}
+    </ul>
+</div>
+
+<p>The funds have been returned to your Euro Lottery account balance and are available for use.</p>
+
+{% if notification.data.rejection_reason %}
+<p>Your withdrawal request was declined for the following reason: <strong>{{ notification.data.rejection_reason }}</strong></p>
+{% else %}
+<p>Your withdrawal request may have failed due to one of the following reasons:</p>
+<ul>
+    <li>Incorrect payment details provided</li>
+    <li>The payment method is no longer valid or has expired</li>
+    <li>Technical issue with the payment processor</li>
+    <li>Additional verification is required</li>
+</ul>
+{% endif %}
+
+<p>You can try submitting a new withdrawal request or using a different payment method:</p>
+
+<p style="text-align: center;">
+    <a href="{{ site_url }}/account/withdraw" class="button">Try Again</a>
+    <a href="{{ site_url }}/account/wallet" class="button" style="margin-left: 10px;">View My Wallet</a>
+</p>
+
+<p>If you need assistance with your withdrawal or have any questions, please contact our customer support team.</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+{% endblock %}

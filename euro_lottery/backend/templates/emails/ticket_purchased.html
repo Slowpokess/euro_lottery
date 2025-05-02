@@ -1,0 +1,37 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+<h2>Ticket Purchase Confirmation</h2>
+
+<p>Hello {{ user.first_name|default:user.username }},</p>
+
+<p>Thank you for your recent ticket purchase. This email confirms that your transaction was successful and your tickets have been registered for the upcoming draw.</p>
+
+<div style="background-color: #f0f7ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+    <p><strong>Purchase Details:</strong></p>
+    <ul>
+        <li>Lottery: {{ notification.data.lottery_name }}</li>
+        <li>Draw Number: #{{ notification.data.draw_number }}</li>
+        <li>Draw Date: {{ notification.data.draw_date|date:"F j, Y, H:i" }}</li>
+        <li>Number of Tickets: {{ notification.data.ticket_count }}</li>
+        <li>Total Amount: {{ notification.data.total_amount }}</li>
+        <li>Purchase Date: {{ notification.created_at|date:"F j, Y, H:i" }}</li>
+    </ul>
+</div>
+
+<p>You can view your ticket details and selected numbers in your account.</p>
+
+<p style="text-align: center;">
+    <a href="{{ site_url }}/tickets/my-tickets" class="button">View My Tickets</a>
+</p>
+
+{% if notification.data.jackpot_amount %}
+<p>The current jackpot for this draw is <span class="highlight">{{ notification.data.jackpot_amount }}</span>. Good luck!</p>
+{% endif %}
+
+<p>Remember to check your account after the draw to see if you've won. We'll also notify you if any of your tickets match the winning numbers.</p>
+
+<p>Thank you for playing Euro Lottery!</p>
+
+<p>Sincerely,<br>The Euro Lottery Team</p>
+{% endblock %}

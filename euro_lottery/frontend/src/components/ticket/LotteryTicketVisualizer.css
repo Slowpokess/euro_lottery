@@ -1,0 +1,93 @@
+/* Styles for lottery ticket visualizer */
+.lottery-ticket-visualizer {
+  margin: 15px 0;
+}
+
+.lottery-ticket {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.lottery-ticket.winning {
+  animation: winningPulse 2s infinite;
+}
+
+.detail-item {
+  padding: 5px;
+  border-radius: 5px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.detail-value {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.winning-badge {
+  animation: badgePulse 1.5s infinite;
+}
+
+.prize-amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.prize-amount.winning {
+  color: #28a745;
+}
+
+.winning-amount {
+  animation: numberScale 1s infinite;
+}
+
+/* Animations */
+@keyframes winningPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.4);
+  }
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes numberScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .detail-item {
+    margin-bottom: 10px;
+  }
+  
+  .detail-label {
+    font-size: 0.7rem;
+  }
+  
+  .detail-value {
+    font-size: 0.9rem;
+  }
+}

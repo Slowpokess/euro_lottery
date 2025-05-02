@@ -1,0 +1,20 @@
+{{ define "slack.title" }}
+[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.SortedPairs.Values | join " " }} - {{ if .CommonLabels.service }}{{ .CommonLabels.service }}{{ else }}Euro Lottery{{ end }}
+{{ end }}
+
+{{ define "slack.message" }}
+{{ if eq .Status "firing" }}:fire: *Alerts Firing* :fire:{{ else }}:white_check_mark: *Alerts Resolved*{{ end }}
+
+{{ range .Alerts }}
+*Alert:* {{ .Annotations.summary }}
+*Description:* {{ .Annotations.description }}
+*Severity:* {{ .Labels.severity }}
+{{ if .Labels.instance }}*Instance:* {{ .Labels.instance }}{{ end }}
+{{ if .Labels.service }}*Service:* {{ .Labels.service }}{{ end }}
+*Started:* {{ .StartsAt | since }}
+{{ if eq $.Status "resolved" }}*Resolved:* {{ .EndsAt | since }}{{ end }}
+---------------------------------------
+{{ end }}
+
+:chart_with_upwards_trend: <https://monitoring.eurolottery.com|View in Grafana>
+{{ end }}
