@@ -1,4 +1,5 @@
 import pytest
+import logging
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 from lottery.models import LotteryGame, Draw, PrizeCategory, Ticket
@@ -6,6 +7,23 @@ from payments.models import Transaction
 from decimal import Decimal
 from django.utils import timezone
 import datetime
+
+# Configure logging for tests to avoid errors
+@pytest.fixture(autouse=True)
+def configure_logging():
+    """Configure logging for tests to prevent issues"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(name)s - %(levelname)s - %(message)s',
+        force=True  # Override existing configurations
+    )
+    # Disable propagation for specific loggers that might cause issues
+    for logger_name in ['lottery', 'django', 'django.request']:
+        logger = logging.getLogger(logger_name)
+        logger.propagate = False
+        # Add a null handler if there are no handlers
+        if not logger.handlers:
+            logger.addHandler(logging.NullHandler())
 
 User = get_user_model()
 
