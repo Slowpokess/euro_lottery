@@ -12,3 +12,44 @@ window.matchMedia = window.matchMedia || function() {
     removeListener: function() {}
   };
 };
+
+// Мокирование axios
+jest.mock('axios', () => ({
+  create: jest.fn(() => ({
+    interceptors: {
+      request: { use: jest.fn(), eject: jest.fn() },
+      response: { use: jest.fn(), eject: jest.fn() }
+    },
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    patch: jest.fn(),
+    delete: jest.fn()
+  })),
+  interceptors: {
+    request: { use: jest.fn(), eject: jest.fn() },
+    response: { use: jest.fn(), eject: jest.fn() }
+  },
+  get: jest.fn(),
+  post: jest.fn(),
+  put: jest.fn(),
+  patch: jest.fn(),
+  delete: jest.fn()
+}));
+
+// Мокирование localStorage
+Object.defineProperty(window, 'localStorage', {
+  value: {
+    getItem: jest.fn(),
+    setItem: jest.fn(),
+    removeItem: jest.fn(),
+    clear: jest.fn()
+  },
+  writable: true
+});
+
+// Добавление мока navigator.onLine
+Object.defineProperty(window.navigator, 'onLine', {
+  configurable: true,
+  value: true
+});

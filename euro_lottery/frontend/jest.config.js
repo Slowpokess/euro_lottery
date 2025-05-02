@@ -20,7 +20,7 @@ module.exports = {
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.js',
   },
   transformIgnorePatterns: [
-    '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+    'node_modules/(?!(axios|react-router|react-router-dom)/)',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   modulePaths: [],
