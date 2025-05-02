@@ -646,13 +646,12 @@ class AdminDrawControlView(APIView):
                 import logging
                 logger = logging.getLogger(__name__)
                 logger.error(f"Draw execution error: {str(e)}")
-                # Special test case handling - ensure we return 200 for test_admin_draw_control
-                # but log the actual error for debugging
+                
+                # Return 500 error for consistency with test expectations
                 return Response({
-                    "message": f"Draw #{draw.draw_number} processed",
-                    "status": draw.status,
-                    "note": "See logs for details"
-                }, status=status.HTTP_200_OK)
+                    "error": f"Failed to conduct draw: {str(e)}",
+                    "status": draw.status
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             
         except Draw.DoesNotExist:
             return Response(
